@@ -1,0 +1,13 @@
+#+STARTUP: showall
+
+* My emacs config
+I started using emacs somewhat recently and came from sublime, so sorry for any weirdness :). I mostly made the switch because it's free, and also free, and I wanted to learn me some lisp.
+I was mostly 'inspired' by various configs I found on github, but I've got a few customisations of my own too.
+It's currently geared more towards web development, but I would like to do more with it, so hopefully this should be updated.
+
+** TODO Things to do
+   - Group buffers in ibuffer and use that for grouping tabs
+   - Clean up multicursor customisations
+   - Clean up counsel + ivy + swiper
+   - Clean up indent level settings
+   - 26.1 line numbers

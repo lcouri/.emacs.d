@@ -1,0 +1,485 @@
+#+STARTUP: hidestars
+#+TITLE: Emacs Configuration
+
+* Themes
+** Doom-molokai (current theme)
+   #+BEGIN_SRC emacs-lisp
+     (use-package doom-themes
+       :config
+       (load-theme 'doom-molokai t)
+       :custom-face
+       (web-mode-html-attr-name-face ((t (:inherit font-lock-variable-name-face :foreground "#b6e63e"))))
+       (web-mode-html-tag-face ((t (:inherit font-lock-function-name-face :foreground "#fb2874"))))
+       (tabbar-default ((t (:background "#3e3e3e" :foreground "#1c1e1f" :height 1.0))))
+       (tabbar-separator ((t (:inherit tabbar-default :background "#1c1e1f"))))
+       (tabbar-unselected ((t (:inherit tabbar-default :foreground "#a6a6a4"))))
+       (ivy-current-match ((t (:background "#525254"))))
+       (org-level-1 ((t (:background unspecified)))))
+   #+END_SRC
+
+* Defaults
+#+begin_src emacs-lisp
+  ;; Set font size
+  (set-face-attribute 'default nil :height 87)
+
+  ;; Save customise settings in its own file, instead of init.el
+  (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
+  (load custom-file)
+
+  ;; Enabled disabled by default functions
+  (put 'downcase-region 'disabled nil)
+  (put 'upcase-region 'disabled nil)
+  (put 'narrow-to-region 'disabled nil)
+  (put 'scroll-left 'disabled nil)
+  (put 'scroll-right 'disabled nil)
+  (put 'dired-find-alternate-file 'disabled nil)
+
+  ;; So weird to have to type out 'yes' and 'no' at a prompt
+  (defalias 'yes-or-no-p 'y-or-n-p)
+
+  ;; Keep all backup and auto-save files in one place
+  ;; (stop cluttering up my directories emacs!)
+  (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups/"))))
+  (setq auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-save-list/") t)))
+
+  ;; Only need one space to count the end of a sentence
+  (setq sentence-end-double-space nil)
+
+  ;; Delete the region when you start typing
+  (delete-selection-mode t)
+
+  ;; Hightlight and insert matching parenthesis
+  (show-paren-mode t)
+  (electric-pair-mode 1)
+  ;; add single quote to electric-pairs (global for now)
+  (push '(?\' . ?\') electric-pair-pairs)
+
+  ;; Show column numbers in the mode line
+  (column-number-mode t)
+
+  ;; Disable all line wrapping
+  (global-visual-line-mode 0)
+  (setq-default truncate-lines t)
+
+  ;; Slow down that blinking
+  (setq blink-cursor-interval 0.65)
+
+  ;; So the buffer doesn't jump around so much while scrolling with up and down
+  (setq scroll-conservatively 100)
+
+  ;; Highlight the line the cursor is on
+  (when window-system (global-hl-line-mode t))
+
+  ;; So there's no discrepancy when files change outside of emacs
+  (global-auto-revert-mode)
+#+end_src
+
+* My key bindings
+#+begin_src emacs-lisp
+  (global-set-key (kbd "RET") 'newline-and-indent)
+  (global-set-key (kbd "<f5>") 'revert-buffer)
+#+end_src
+
+* Built-in Packages
+** {disabled} ido-mode
+   Disabled ido-mode since I'm using swiper/ivy/counsel for everything now, and ido-mode seems to override in some random places
+(like (C-x k) kill-buffer)
+#+begin_src emacs-lisp
+  ;; (setq ido-enable-flex-matching t)
+  ;; (setq ido-everywhere t)
+  ;; (ido-mode 1)
+#+end_src
+
+** whitespace
+   I only want to see spaces and tabs
+#+begin_src emacs-lisp
+  (global-whitespace-mode 1)
+  (setq whitespace-style '(face spaces tabs space-mark tab-mark))
+
+  ;; whitespace-mode doesn't seem to play well with org-mode, so disable there for now
+  (setq whitespace-global-modes '(not org-mode))
+
+  (set-face-attribute 'whitespace-tab nil :inherit 'whitespace-space :foreground 'unspecified)
+#+end_src
+
+** ibuffer
+   #+BEGIN_SRC emacs-lisp
+     (defalias 'list-buffers 'ibuffer-other-window)
+     (defadvice ibuffer-other-window (around ibuffer-point-to-most-recent) ()
+                "Open ibuffer with cursor pointed to most recent (non-minibuffer) buffer name"
+                (let ((recent-buffer-name
+                       (if (minibufferp (buffer-name))
+                           (buffer-name
+                            (window-buffer (minibuffer-selected-window)))
+                         (buffer-name))))
+                  ad-do-it
+                  (ibuffer-jump-to-buffer recent-buffer-name)))
+     (ad-activate 'ibuffer-other-window)
+   #+END_SRC
+
+
+* emacs-lisp-mode
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'emacs-lisp-mode-hook (lambda () (setq indent-tabs-mode nil)))
+#+END_SRC
+
+* org-mode
+** Installation
+   Use the latest org-mode package from the org archives.
+   
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure org-plus-contrib
+    :pin org)
+#+end_src
+
+** Org packages
+*** org-bullets
+    For fancy looking stars
+#+begin_src emacs-lisp
+  (use-package org-bullets
+   :ensure t
+   :config
+   (add-hook 'org-mode-hook 'org-bullets-mode))
+#+end_src
+
+* web-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :mode ("\\.jsx\\'" "\\.html\\'" "\\.jsp\\'")
+    :hook (web-mode . (lambda () (setq indent-tabs-mode nil)))
+    :config
+    (progn
+      (setq web-mode-markup-indent-offset 2)
+      (setq web-mode-code-indent-offset 2)
+      (setq web-mode-css-indent-offset 2)
+      (setq web-mode-attr-indent-offset 2)
+      (setq web-mode-attr-value-indent-offset 2)
+      ;; (setq web-mode-enable-current-element-highlight t)
+      (setq web-mode-enable-current-column-highlight t)
+      (setq web-mode-enable-auto-quoting nil)
+      (setq-default web-mode-comment-formats '(("java" . "//")
+					       ("javascript" . "//")
+					       ("jsx" . "//")
+					       ("php" . "/*")
+					       ("css" . "/*")))))
+
+#+END_SRC
+
+* scss-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package scss-mode
+    :ensure t
+    :mode ("\\.scss\\''" "\\.sass\\''")
+    :hook (scss-mode . (lambda () (progn
+                                    (setq indent-tabs-mode nil)
+                                    (setq css-indent-offset 2)))))
+#+END_SRC
+
+* sass-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package sass-mode
+    :ensure t
+    :mode ("\\.sass\\'"))
+#+END_SRC
+
+* json-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode
+    :ensure t
+    :mode ("\\.json\\'")
+    :hook (json-mode . (lambda () (progn
+                                    (setq js-indent-level 8)))))
+#+END_SRC
+
+* js2-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :ensure t
+    :mode ( "\\.js\\'")
+    :hook (js2-mode . (lambda () (setq indent-tabs-mode nil)))
+    :config
+    (progn
+      (setq js-indent-level 2)
+      (setq js2-basic-offset 2)
+      (setq js2-mode-show-parse-errors nil)
+      (setq js2-mode-show-strict-warnings nil)))
+#+END_SRC
+
+* yaml-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :ensure t
+    :mode ("\\.yml\\'"))
+#+END_SRC
+
+
+
+* swiper + counsel + ivy
+The commented out swiper config was taken from [[https://github.com/abo-abo/swiper][Swiper github]].
+Need to sort this out properly.
+#+begin_src emacs-lisp
+  (use-package counsel
+    :ensure t)
+  (use-package ivy
+    :ensure t
+    :diminish (ivy-mode)
+    :bind (("C-x b" . ivy-switch-buffer))
+    :config
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffer t)
+    (setq ivy-display-style 'fancy))
+  (use-package swiper
+    :ensure t
+    :after (counsel ivy)
+    :bind (("C-s" . swiper)
+           ("C-r" . swiper)
+           ("C-c C-r" . ivy-resume)
+           ("M-x" . counsel-M-x)
+           ("C-x C-f" . counsel-find-file))
+    :config
+    (progn
+      (ivy-mode 1)
+      (setq ivy-use-virtual-buffers t)
+      (setq enable-recursive-minibuffers t)
+      ;;(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+      ;;(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+      ;;(global-set-key (kbd "<f1> l") 'counsel-find-library)
+      ;;(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+      ;;(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+      ;;(global-set-key (kbd "C-c g") 'counsel-git)
+      ;;(global-set-key (kbd "C-c j") 'counsel-git-grep)
+      ;;(global-set-key (kbd "C-c k") 'counsel-ag)
+      ;;(global-set-key (kbd "C-x l") 'counsel-locate)
+      ;;(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+      ;;(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+      (setq ivy-display-style 'fancy)
+      (define-key read-expression-map (kbd "C-r") 'councel-expression-history)
+      (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
+      (setq ivy-use-selectable-prompt t)))
+#+end_src
+
+* multiple-cursors
+I've added advice to make it work more like how I think it should work - mark-next and mark-previous do not move the cursor to the next and previous word by default.
+
+*Issues* mark-next and mark-previous only move the cursor to the next or previous multi cursor - so if your cursor is in the middle it won't jump to the new selection.
+
+#+BEGIN_SRC emacs-lisp
+  (defun mc/cycle-forward-after (arg)
+    "A version of mc/cycle-forward to use in advice :after mc/mark- commands"
+    (mc/cycle-forward))
+  (defun mc/cycle-backward-after (arg)
+    "A version of mc/cycle-backward to use in advice :after mc/mark- commands"
+    (mc/cycle-backward))
+
+  (use-package multiple-cursors
+    :ensure t
+    :bind (("C-." . 'mc/mark-next-like-this-word)
+	   ("C-," . 'mc/mark-previous-like-this-word)
+	   ("C->" . 'mc/unmark-next-like-this)
+	   ("C-<" . 'mc/unmark-previous-like-this))
+    :config
+    (progn
+      ;; unbind RET from quitting multicursors
+      (define-key mc/keymap (kbd "<return>") nil)
+      (define-key mc/keymap (kbd "C-'") nil)
+      (define-key mc/keymap (kbd "C-M-'") 'mc-hide-unmatched-lines-mode)
+      (advice-add 'mc/mark-next-like-this-word :after 'mc/cycle-forward-after)
+      (advice-add 'mc/mark-previous-like-this-word :after 'mc/cycle-backward-after)
+      (advice-add 'mc/unmark-next-like-this :before 'mc/cycle-backward)
+      (advice-add 'mc/unmark-previous-like-this :before 'mc/cycle-forward)))
+#+END_SRC
+
+* flycheck
+Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html][this post]] to get flycheck using the local eslint.
+#+BEGIN_SRC emacs-lisp
+  (defun my/use-eslint-from-node-modules ()
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (eslint (and root
+                        (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                          root))))
+      (when (and eslint (file-executable-p eslint))
+        (setq-local flycheck-javascript-eslint-executable eslint))))
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode)
+    :config
+    (progn
+      (setq-default flycheck-temp-prefix ".flycheck")
+      (flycheck-add-mode 'javascript-eslint 'web-mode)
+      (add-hook 'web-mode-hook (lambda ()
+                                 (unless (member 'javascript-jshint flycheck-disabled-checkers)
+                                   (setq-local flycheck-disabled-checkers
+                                               (append flycheck-disabled-checkers '(javascript-jshint))))))
+      (add-hook 'emacs-lisp-mode-hook (lambda ()
+                                        (setq-local flycheck-disabled-checkers
+                                                    (append flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
+      (flycheck-add-mode 'javascript-jshint 'js2-mode)
+      (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
+    :custom-face
+    (flycheck-error ((t (:background "#550000"))))
+    (flycheck-warning ((t (:background "#885500")))))
+#+END_SRC
+
+* tabbar
+#+begin_src emacs-lisp
+  (defvar tabbar-projectile-buffer-group-calc nil
+    "Stored projectile buffer var, so it doesn't need to be recalculated every time.")
+  (defun group-by-projectile ()
+    "Function to group tabs by terminals, emacs temporary buffers, projectile project buffers, and other"
+    (if tabbar-projectile-buffer-group-calc
+	(symbol-value 'tabbar-projectile-buffer-group-calc)
+      (set (make-local-variable 'tabbar-projectile-buffer-group-calc)
+	   (cond
+	    ((or (get-buffer-process (current-buffer)) (memq major-mode '(comint-mode compilation-mode))) '("Term"))
+	    ((string-equal "*" (substring (buffer-name) 0 1)) '("Emacs temp"))
+	    ((condition-case err
+		 (projectile-project-root)
+	       (error nil)) (list (projectile-project-name)))
+	    (t '("Other"))))
+      (symbol-value 'tabbar-projectile-buffer-group-calc)))
+
+  (use-package tabbar
+    :ensure t
+    :bind (("<C-next>" . 'tabbar-forward)       ;used to be scroll left and right
+	   ("<C-prior>" . 'tabbar-backward)
+	   ("<M-next>" . 'tabbar-forward-group) ;used to be scroll other window
+	   ("<M-prior>" . 'tabbar-backward-group))
+    :custom
+    (tabbar-separator (quote (0.4)))
+    :config
+    (tabbar-mode 1)
+    (setq tabbar-buffer-groups-function 'group-by-projectile))
+#+end_src
+
+* neotree
+#+BEGIN_SRC emacs-lisp
+  (defun neotree-project-dir ()
+    "Open neotree using the projectile root."
+    (interactive)
+    (let ((project-dir (projectile-project-root))
+          (file-name (buffer-file-name)))
+      (neotree-toggle)
+      (if project-dir
+          (if (neo-global--window-exists-p)
+              (progn
+                (neotree-dir project-dir)
+                (neotree-find file-name)))
+        (message "Could not find projectile root."))))
+  (use-package neotree
+    :ensure t
+    :bind ("<f8>" . neotree-project-dir)
+    :config
+    (progn
+      (setq neotree-smart-open t)
+      (setq projectile-switch-project-action 'neotree-projectile-action)))
+#+END_SRC
+
+* nlinum
+Should hopefully be more efficient than the built-in linum
+#+BEGIN_SRC emacs-lisp
+  (use-package nlinum
+    :ensure t
+    :config
+    (global-nlinum-mode t))
+#+END_SRC
+
+* try
+#+BEGIN_SRC emacs-lisp
+  (use-package try
+    :ensure t)
+#+END_SRC
+
+* ace-window
+#+begin_src emacs-lisp
+  (use-package ace-window
+    :ensure t
+    :init
+    (global-set-key [remap other-window] 'ace-window))
+#+end_src
+
+* which-key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :ensure t
+    :pin melpa
+    :config
+    (which-key-mode))
+#+end_src
+
+* undo-tree
+#+BEGIN_SRC emacs-lisp
+  (use-package undo-tree
+    :ensure t
+    :init (global-undo-tree-mode))
+#+END_SRC
+
+* projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :config
+    (projectile-global-mode t)
+    (setq projectile-enable-caching t)
+    (setq projectile-completion-system 'ivy))
+  (use-package counsel-projectile
+    :ensure t
+    :after (counsel projectile)
+    :config
+    (counsel-projectile-mode t))
+#+END_SRC
+
+* magit
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :ensure t
+    :bind ("C-x g" . 'magit-status))
+#+END_SRC
+
+* expand-region
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region
+    :ensure t
+    :bind ("C-=" . er/expand-region))
+#+END_SRC
+
+* avy
+#+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :ensure t
+    :bind (("C-#" . avy-goto-char-in-line)
+           ("M-#" . avy-goto-word-1)))
+#+END_SRC
+
+* web-beautify
+#+BEGIN_SRC emacs-lisp
+  (use-package web-beautify
+    :ensure t)
+#+END_SRC
+
+* origami
+  Need to mess with this more, and try to get it to auto-fold some files (have a rule like fold all functions at a certain level or something).
+#+BEGIN_SRC emacs-lisp
+  (use-package origami
+    :ensure t
+    :config
+    (progn
+      (global-origami-mode t)
+      (define-prefix-command 'origami-mode-map)
+      (global-set-key (kbd "C-c f") 'origami-mode-map)
+      (define-key origami-mode-map (kbd "f") 'origami-recursively-toggle-node)))
+#+END_SRC
+
+* company
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :config
+    (progn
+      (add-hook 'after-init-hook 'global-company-mode)
+      (setq company-dabbrev-downcase nil)))
+#+END_SRC
+
