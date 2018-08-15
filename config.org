@@ -5,6 +5,7 @@
 ** Doom-molokai (current theme)
    #+BEGIN_SRC emacs-lisp
      (use-package doom-themes
+       :ensure t
        :config
        (load-theme 'doom-molokai t)
        :custom-face
