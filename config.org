@@ -25,7 +25,8 @@
 
   ;; Save customise settings in its own file, instead of init.el
   (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
-  (load custom-file)
+  (when (file-exists-p custom-file)
+    (load custom-file))
 
   ;; Enabled disabled by default functions
   (put 'downcase-region 'disabled nil)
