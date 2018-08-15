@@ -416,7 +416,8 @@ Should hopefully be more efficient than the built-in linum
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :ensure t
-    :init (global-undo-tree-mode))
+    :config
+    (global-undo-tree-mode))
 #+END_SRC
 
 * projectile
