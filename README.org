@@ -10,4 +10,3 @@ It's currently geared more towards web development, but I would like to do more 
    - Clean up multicursor customisations
    - Clean up counsel + ivy + swiper
    - Clean up indent level settings
-   - 26.1 line numbers
