@@ -249,7 +249,8 @@ Need to sort this out properly.
            ("C-r" . swiper)
            ("C-c C-r" . ivy-resume)
            ("M-x" . counsel-M-x)
-           ("C-x C-f" . counsel-find-file))
+           ("C-x C-f" . counsel-find-file)
+           ("M-s s" . counsel-git-grep))
     :config
     (progn
       (ivy-mode 1)
@@ -261,7 +262,6 @@ Need to sort this out properly.
       ;;(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
       ;;(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
       ;;(global-set-key (kbd "C-c g") 'counsel-git)
-      ;;(global-set-key (kbd "C-c j") 'counsel-git-grep)
       ;;(global-set-key (kbd "C-c k") 'counsel-ag)
       ;;(global-set-key (kbd "C-x l") 'counsel-locate)
       ;;(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
