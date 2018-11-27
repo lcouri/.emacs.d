@@ -9,7 +9,6 @@
 ;; Disable UI stuff immediately to avoid any display at all
 (when window-system
   (tool-bar-mode -1)
-  (scroll-bar-mode -1)
   (menu-bar-mode -1))
 (setq inhibit-startup-message t)
 
