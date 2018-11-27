@@ -435,8 +435,9 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
+    :bind ("C-c p" . 'projectile-command-map)
     :config
-    (projectile-global-mode t)
+    (projectile-mode t)
     (setq projectile-enable-caching t)
     (setq projectile-completion-system 'ivy))
   (use-package counsel-projectile
