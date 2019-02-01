@@ -200,7 +200,7 @@
     :ensure t
     :mode ("\\.json\\'")
     :hook (json-mode . (lambda () (progn
-                                    (setq js-indent-level 8)))))
+				    (setq-local js-indent-level 8)))))
 #+END_SRC
 
 * js2-mode
@@ -211,7 +211,7 @@
     :hook (js2-mode . (lambda () (setq indent-tabs-mode nil)))
     :config
     (progn
-      (setq js-indent-level 2)
+      (setq-local js-indent-level 2)
       (setq js2-basic-offset 2)
       (setq js2-mode-show-parse-errors nil)
       (setq js2-mode-show-strict-warnings nil)))
