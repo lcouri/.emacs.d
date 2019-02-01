@@ -123,10 +123,8 @@
    #+END_SRC
 
 ** display-line-numbers
-   The new 26.1 way of displaying line numbers - need to check it's there first, since I've got a machine still running an older emacs.
 #+BEGIN_SRC emacs-lisp
-  (when (fboundp 'global-display-line-numbers-mode)
-    (global-display-line-numbers-mode t))
+  (global-display-line-numbers-mode t)
 #+END_SRC
 
 
@@ -388,16 +386,6 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
     (progn
       (setq neotree-smart-open t)
       (setq projectile-switch-project-action 'neotree-projectile-action)))
-#+END_SRC
-
-* nlinum
-  I've still got an older version of emacs running on a machine, so keeping this around for now.
-#+BEGIN_SRC emacs-lisp
-  (unless (fboundp 'global-display-line-numbers-mode)
-    (use-package nlinum
-      :ensure t
-      :config
-      (global-nlinum-mode t)))
 #+END_SRC
 
 * try
