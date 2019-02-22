@@ -394,14 +394,6 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
     :ensure t)
 #+END_SRC
 
-* ace-window
-#+begin_src emacs-lisp
-  (use-package ace-window
-    :ensure t
-    :init
-    (global-set-key [remap other-window] 'ace-window))
-#+end_src
-
 * which-key
 #+begin_src emacs-lisp
   (use-package which-key
@@ -484,5 +476,15 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
     (progn
       (add-hook 'after-init-hook 'global-company-mode)
       (setq company-dabbrev-downcase nil)))
+#+END_SRC
+
+* window-jump
+#+BEGIN_SRC emacs-lisp
+  (use-package window-jump
+    :ensure t
+    :bind (("M-<right>" . window-jump-right)
+	   ("M-<left>" . window-jump-left)
+	   ("M-<up>" . window-jump-up)
+	   ("M-<down>" . window-jump-down)))
 #+END_SRC
 
