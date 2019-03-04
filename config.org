@@ -208,10 +208,11 @@
   (use-package js2-mode
     :ensure t
     :mode ( "\\.js\\'")
-    :hook (js2-mode . (lambda () (setq indent-tabs-mode nil)))
+    :hook (js2-mode . (lambda () (progn
+				   (setq indent-tabs-mode nil)
+				   (setq-local js-indent-level 2))))
     :config
     (progn
-      (setq-local js-indent-level 2)
       (setq js2-basic-offset 2)
       (setq js2-mode-show-parse-errors nil)
       (setq js2-mode-show-strict-warnings nil)))
