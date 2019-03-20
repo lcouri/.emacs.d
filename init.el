@@ -12,6 +12,10 @@
   (menu-bar-mode -1))
 (setq inhibit-startup-message t)
 
+;; start maximised
+(custom-set-variables
+ '(initial-frame-alist '((fullscreen . maximized))))
+
 ;; Set up package archives
 (require 'package)
 (add-to-list 'package-archives
