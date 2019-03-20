@@ -77,6 +77,11 @@
 
   ;; So there's no discrepancy when files change outside of emacs
   (global-auto-revert-mode)
+
+  ;; Taken from ivy--parent-dir
+  (defun my/parent-dir (filename)
+    "Return parent directory of absolute FILENAME."
+    (file-name-directory (directory-file-name filename)))
 #+end_src
 
 * My key bindings
@@ -305,15 +310,17 @@ I've added advice to make it work more like how I think it should work - mark-ne
 * flycheck
 Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html][this post]] to get flycheck using the local eslint.
 #+BEGIN_SRC emacs-lisp
-  (defun my/use-eslint-from-node-modules ()
+  (defun my/find-eslint-from-node-modules (&optional filename)
     (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (eslint (and root
-                        (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                          root))))
-      (when (and eslint (file-executable-p eslint))
-        (setq-local flycheck-javascript-eslint-executable eslint))))
+		  (or filename (buffer-file-name) default-directory)
+		  "node_modules"))
+	   (eslint (and root
+			(expand-file-name "node_modules/eslint/bin/eslint.js"
+					  root))))
+      (when eslint
+	(if (file-executable-p eslint)
+	    (setq-local flycheck-javascript-eslint-executable eslint)
+	  (my/find-eslint-from-node-modules (my/parent-dir root))))))
   (use-package flycheck
     :ensure t
     :init (global-flycheck-mode)
@@ -329,7 +336,7 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
                                         (setq-local flycheck-disabled-checkers
                                                     (append flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
       (flycheck-add-mode 'javascript-jshint 'js2-mode)
-      (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
+      (add-hook 'flycheck-mode-hook #'my/find-eslint-from-node-modules))
     :custom-face
     (flycheck-error ((t (:background "#550000"))))
     (flycheck-warning ((t (:background "#885500")))))
