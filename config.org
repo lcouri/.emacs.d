@@ -15,7 +15,8 @@
        (tabbar-separator ((t (:inherit tabbar-default :background "#1c1e1f"))))
        (tabbar-unselected ((t (:inherit tabbar-default :foreground "#a6a6a4"))))
        (ivy-current-match ((t (:background "#525254"))))
-       (org-level-1 ((t (:background unspecified)))))
+       (org-level-1 ((t (:background unspecified))))
+       (default ((t :background "#000000"))))
    #+END_SRC
 
 * Defaults
