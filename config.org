@@ -497,3 +497,9 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
 	   ("M-<down>" . window-jump-down)))
 #+END_SRC
 
+* git-timemachine
+#+BEGIN_SRC emacs-lisp
+  (use-package git-timemachine
+    :ensure t)
+#+END_SRC
+
