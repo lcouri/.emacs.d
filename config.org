@@ -503,3 +503,11 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
     :ensure t)
 #+END_SRC
 
+* rotate
+#+BEGIN_SRC emacs-lisp
+  (use-package rotate
+    :ensure t
+    :bind (("C-c C-o" . rotate-window)
+	   ("C-c C-p" . rotate-layout)))
+#+END_SRC
+
