@@ -175,6 +175,7 @@
       ;; (setq web-mode-enable-current-element-highlight t)
       (setq web-mode-enable-current-column-highlight t)
       (setq web-mode-enable-auto-quoting nil)
+      (setq web-mode-indentation-params nil)
       (setq-default web-mode-comment-formats '(("java" . "//")
 					       ("javascript" . "//")
 					       ("jsx" . "//")
