@@ -91,15 +91,6 @@
 #+end_src
 
 * Built-in Packages
-** {disabled} ido-mode
-   Disabled ido-mode since I'm using swiper/ivy/counsel for everything now, and ido-mode seems to override in some random places
-(like (C-x k) kill-buffer)
-#+begin_src emacs-lisp
-  ;; (setq ido-enable-flex-matching t)
-  ;; (setq ido-everywhere t)
-  ;; (ido-mode 1)
-#+end_src
-
 ** whitespace
    I only want to see spaces and tabs
 #+begin_src emacs-lisp
