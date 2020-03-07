@@ -92,16 +92,20 @@
 
 * Built-in Packages
 ** whitespace
-   I only want to see spaces and tabs
-#+begin_src emacs-lisp
-  (global-whitespace-mode 1)
-  (setq whitespace-style '(face spaces tabs space-mark tab-mark))
+   I think it's useful to see the indentation and general whitespace when programming.
+   Whitespace-mode let's me see at a glance whether a tab or space is being used, or there's extra
+   whitespace where you don't want, or if an odd character like a non-breaking space has been used.
+   It looks pretty bad with org-mode and magit though, so I've only got it enabled for programming
+   modes via prog-mode-hook.
+   #+begin_src emacs-lisp
+     (add-hook 'prog-mode-hook (lambda () (whitespace-mode 1)))
 
-  ;; whitespace-mode doesn't seem to play well with org-mode, so disable there for now
-  (setq whitespace-global-modes '(not org-mode))
+     ;; make whitespace-tab face look the same as whitespace-space
+     (eval-after-load "whitespace"
+       '(set-face-attribute 'whitespace-tab nil :inherit 'whitespace-space :foreground 'unspecified))
 
-  (set-face-attribute 'whitespace-tab nil :inherit 'whitespace-space :foreground 'unspecified)
-#+end_src
+     (setq whitespace-style '(face spaces tabs space-mark tab-mark))
+   #+end_src
 
 ** ibuffer
    #+BEGIN_SRC emacs-lisp
