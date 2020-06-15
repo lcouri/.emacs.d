@@ -2,15 +2,14 @@
 #+TITLE: Emacs Configuration
 
 * Themes
-** Doom-molokai (current theme)
+** Doom-monokai-classic (current theme)
    #+BEGIN_SRC emacs-lisp
      (use-package doom-themes
        :ensure t
        :config
-       (load-theme 'doom-molokai t)
+       (load-theme 'doom-monokai-classic t)
        :custom-face
-       (web-mode-html-attr-name-face ((t (:inherit font-lock-variable-name-face :foreground "#b6e63e"))))
-       (web-mode-html-tag-face ((t (:inherit font-lock-function-name-face :foreground "#fb2874"))))
+       (font-lock-variable-name-face ((t (:foreground "#fd971f"))))
        (tabbar-default ((t (:background "#3e3e3e" :foreground "#1c1e1f" :height 1.0))))
        (tabbar-separator ((t (:inherit tabbar-default :background "#1c1e1f"))))
        (tabbar-unselected ((t (:inherit tabbar-default :foreground "#a6a6a4"))))
