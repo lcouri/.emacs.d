@@ -248,7 +248,8 @@ Need to sort this out properly.
            ("C-c C-r" . ivy-resume)
            ("M-x" . counsel-M-x)
            ("C-x C-f" . counsel-find-file)
-           ("M-s s" . counsel-git-grep))
+           ("M-s s" . counsel-git-grep)
+	   ("M-s ." . swiper-thing-at-point))
     :config
     (progn
       (ivy-mode 1)
