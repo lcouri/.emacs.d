@@ -143,13 +143,12 @@
 #+end_src
 
 ** Org packages
-*** org-bullets
+*** org-superstar
     For fancy looking stars
 #+begin_src emacs-lisp
-  (use-package org-bullets
-   :ensure t
-   :config
-   (add-hook 'org-mode-hook 'org-bullets-mode))
+  (use-package org-superstar
+    :ensure t
+    :hook (org-mode . (lambda () (org-superstar-mode 1))))
 #+end_src
 
 * web-mode
