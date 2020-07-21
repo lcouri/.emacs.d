@@ -259,6 +259,7 @@ Need to sort this out properly.
 I've added advice to make it work more like how I think it should work - mark-next and mark-previous do not move the cursor to the next and previous word by default.
 
 *Issues* mark-next and mark-previous only move the cursor to the next or previous multi cursor - so if your cursor is in the middle it won't jump to the new selection.
+Need a cycle to end function (or actually a cycle to new cursor function would make more sense)
 
 #+BEGIN_SRC emacs-lisp
   (defun advice-mc/cycle-forward (&optional arg)
