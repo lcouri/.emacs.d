@@ -12,16 +12,23 @@
         delete-horizontal-space
         downcase-region
         electric-pair-delete-pair
+        eshell-pcomplete
+        forward-sexp
         haml-electric-backspace
         indent-for-tab-command
         ivy-alt-done
         kill-region
+        markdown-outdent-or-delete
         org-cycle
         org-return
         org-self-insert-command
+        org-yank
         revert-buffer
+        transpose-words
         upcase-region
         web-mode-comment-or-uncomment
+        web-mode-element-kill
+        web-mode-element-wrap
         yaml-electric-backspace
         yaml-electric-dash-and-dot
         yank-rectangle
