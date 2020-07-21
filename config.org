@@ -261,12 +261,22 @@ I've added advice to make it work more like how I think it should work - mark-ne
 *Issues* mark-next and mark-previous only move the cursor to the next or previous multi cursor - so if your cursor is in the middle it won't jump to the new selection.
 
 #+BEGIN_SRC emacs-lisp
-  (defun mc/cycle-forward-after (arg)
-    "A version of mc/cycle-forward to use in advice :after mc/mark- commands"
-    (mc/cycle-forward))
-  (defun mc/cycle-backward-after (arg)
-    "A version of mc/cycle-backward to use in advice :after mc/mark- commands"
-    (mc/cycle-backward))
+  (defun advice-mc/cycle-forward (&optional arg)
+    "A version of mc/cycle-forward to use in advice mc/mark- commands"
+    (if
+	(or
+	 (mc/next-fake-cursor-after-point)
+	 (mc/first-fake-cursor-after (point-min)))
+	(mc/cycle-forward)
+      (deactivate-mark)))
+  (defun advice-mc/cycle-backward (&optional arg)
+    "A version of mc/cycle-backward to use in advice mc/mark- commands"
+    (if
+	(or
+	 (mc/prev-fake-cursor-before-point)
+	 (mc/last-fake-cursor-before (point-max)))
+	(mc/cycle-backward)
+      (deactivate-mark)))
 
   (use-package multiple-cursors
     :ensure t
@@ -278,12 +288,16 @@ I've added advice to make it work more like how I think it should work - mark-ne
     (progn
       ;; unbind RET from quitting multicursors
       (define-key mc/keymap (kbd "<return>") nil)
+      ;; move some keybindings around
       (define-key mc/keymap (kbd "C-'") nil)
       (define-key mc/keymap (kbd "C-M-'") 'mc-hide-unmatched-lines-mode)
-      (advice-add 'mc/mark-next-like-this-word :after 'mc/cycle-forward-after)
-      (advice-add 'mc/mark-previous-like-this-word :after 'mc/cycle-backward-after)
-      (advice-add 'mc/unmark-next-like-this :before 'mc/cycle-backward)
-      (advice-add 'mc/unmark-previous-like-this :before 'mc/cycle-forward)))
+      (define-key mc/keymap (kbd "C-v") nil)
+      (define-key mc/keymap (kbd "M-v") nil)
+      ;; advice for cycling after marking
+      (advice-add 'mc/mark-next-like-this-word :after 'advice-mc/cycle-forward)
+      (advice-add 'mc/mark-previous-like-this-word :after 'advice-mc/cycle-backward)
+      (advice-add 'mc/unmark-next-like-this :before 'advice-mc/cycle-backward)
+      (advice-add 'mc/unmark-previous-like-this :before 'advice-mc/cycle-forward)))
 #+END_SRC
 
 * flycheck
