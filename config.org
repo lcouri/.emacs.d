@@ -155,7 +155,7 @@
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode
     :ensure t
-    :mode ("\\.jsx\\'" "\\.html\\'" "\\.jsp\\'")
+    :mode ("\\.js\\'" "\\.jsx\\'" "\\.html\\'" "\\.tsx\\'" "\\.ts\\'")
     :hook (web-mode . (lambda () (setq indent-tabs-mode nil)))
     :config
     (progn
@@ -168,10 +168,9 @@
       (setq web-mode-enable-current-column-highlight t)
       (setq web-mode-enable-auto-quoting nil)
       (setq web-mode-indentation-params nil)
-      (setq-default web-mode-comment-formats '(("java" . "//")
-					       ("javascript" . "//")
+      (setq-default web-mode-comment-formats '(("javascript" . "//")
+					       ("typescript" . "//")
 					       ("jsx" . "//")
-					       ("php" . "/*")
 					       ("css" . "/*")))))
 
 #+END_SRC
