@@ -4,6 +4,7 @@ elpa/
 eshell/
 games/
 url/
+emojis/
 *.elc
 emacs-custom.el
 ido.last

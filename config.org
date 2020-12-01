@@ -540,3 +540,24 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
 	      (telephone-line-mode 1)))
 #+END_SRC
 
+* emojis / emojify
+  When emacs is compiled with cairo support, then it can support a proper emoji font (I don't know if there's
+  a better way of checking cairo than checking cairo-version-string).
+  If not then fall back to using the emojify package.
+  Note: I believe that emacs should fall back to using the Symbola font for emojis otherwise,
+  but for some reason that's not available in the official Arch Linux repo (it is in the AUR).
+  Thanks to that if you, for example, open Magit in a project that has emojis in the commit messages,
+  then emacs will crash if it doesn't have emoji support 😑
+
+  Should look into windows support of actual emojis at some point.
+#+BEGIN_SRC emacs-lisp
+  (if (and (boundp 'cairo-version-string)
+	   (find-font (font-spec :name "Noto Color Emoji")))
+      (set-fontset-font "fontset-default" 'unicode "Noto Color Emoji")
+    (use-package emojify
+      :ensure t
+      :config
+      (global-emojify-mode)
+      (setq emojify-emoji-styles '(unicode github))))
+#+END_SRC
+
