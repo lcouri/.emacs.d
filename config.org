@@ -1,6 +1,12 @@
 #+STARTUP: hidestars
 #+TITLE: Emacs Configuration
 
+* Consts
+  Consts borrowed from doom-emacs (core/core.el)
+#+begin_src emacs-lisp
+  (defconst IS-WINDOWS (memq system-type '(cygwin windows-nt ms-dos)))
+#+end_src
+
 * Themes
 ** Doom-monokai-classic (current theme)
    #+BEGIN_SRC emacs-lisp
@@ -18,69 +24,111 @@
    #+END_SRC
 
 * Defaults
+** font
+   Set default font size.
 #+begin_src emacs-lisp
-  ;; Set default font size
-  (set-face-attribute 'default nil :height 90)
+  (set-face-attribute 'default nil :height 95)
+#+end_src
 
-  ;; Set default font to Hack if it exists
+   Set default font family to "Hack" (my favourite monospace font) if it exists.
+#+begin_src emacs-lisp
   (when (find-font (font-spec :name "Hack")) (set-face-attribute 'default nil :family "Hack"))
+#+end_src
 
-  ;; Save customise settings in its own file, instead of init.el
+** emacs-custom file
+   Save customise settings in its own file, instead of init.el
+#+begin_src emacs-lisp
   (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
   (when (file-exists-p custom-file)
     (load custom-file))
+#+end_src
 
-  ;; Enabled disabled by default functions
+** Enable disabled functions
+#+begin_src emacs-lisp
   (put 'downcase-region 'disabled nil)
   (put 'upcase-region 'disabled nil)
   (put 'narrow-to-region 'disabled nil)
   (put 'scroll-left 'disabled nil)
   (put 'scroll-right 'disabled nil)
   (put 'dired-find-alternate-file 'disabled nil)
+#+end_src
 
-  ;; So weird to have to type out 'yes' and 'no' at a prompt
+** yes-or-no-p
+   So weird to have to type out "yes" and "no" at a prompt.
+   I would like to have a version where "RET" also works as yes.
+#+begin_src emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
+#+end_src
 
-  ;; Keep all backup and auto-save files in one place
-  ;; (stop cluttering up my directories emacs!)
+** utf-8
+   According to doom-emacs, this is all that's needed to make utf-8 the default coding system.
+#+begin_src emacs-lisp
+  (when (fboundp 'set-charset-priority)
+    (set-charset-priority 'unicode))
+  (prefer-coding-system 'utf-8)
+  (setq locale-coding-system 'utf-8)
+  (unless IS-WINDOWS
+    (setq selection-coding-system 'utf-8))
+#+end_src
+
+** Keep all backup and auto-save files in one place
+#+begin_src emacs-lisp
   (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups/"))))
   (setq auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-save-list/") t)))
+#+end_src
 
-  ;; Only need one space to count the end of a sentence
+** Only need one space for end of sentence.
+#+begin_src emacs-lisp
   (setq sentence-end-double-space nil)
+#+end_src
 
-  ;; Delete the region when you start typing
+** Delete the region when you start typing, like a normal editor.
+#+begin_src emacs-lisp
   (delete-selection-mode t)
+#+end_src
 
-  ;; Hightlight and insert matching parenthesis
+** Hightlight and insert matching parenthesis.
+   Also add single quote to electric-pairs for javascript.
+#+begin_src emacs-lisp
   (show-paren-mode t)
   (electric-pair-mode 1)
-  ;; add single quote to electric-pairs (global for now)
   (push '(?\' . ?\') electric-pair-pairs)
+#+end_src
 
-  ;; Show column numbers in the mode line
+** Show column numbers in the mode line.
+#+begin_src emacs-lisp
   (column-number-mode t)
+#+end_src
 
-  ;; Disable all line wrapping
+** Disable all line wrapping.
+#+begin_src emacs-lisp
   (global-visual-line-mode 0)
   (setq-default truncate-lines t)
+#+end_src
 
-  ;; Slow down that blinking
-  (setq blink-cursor-interval 0.65)
+** Slow down that blinking.
+#+begin_src emacs-lisp
+    (setq blink-cursor-interval 0.65)
+#+end_src
 
-  ;; So the buffer doesn't jump around so much while scrolling with up and down
+** Stop the buffer jumping around so much while scrolling up and down.
+#+begin_src emacs-lisp
   (setq scroll-conservatively 100)
+#+end_src
 
-  ;; Highlight the line the cursor is on
+** Highlight the line the cursor is on.
+#+begin_src emacs-lisp
   (when window-system (global-hl-line-mode t))
+#+end_src
 
-  ;; So there's no discrepancy when files change outside of emacs
+** So there's no discrepancy when files change outside of emacs.
+#+begin_src emacs-lisp
   (global-auto-revert-mode)
+#+end_src
 
-  ;; Taken from ivy--parent-dir
-  (defun my/parent-dir (filename)
-    "Return parent directory of absolute FILENAME."
-    (file-name-directory (directory-file-name filename)))
+** Adjust spit-height-threshold
+#+begin_src emacs-lisp
+  (setq split-height-threshold 160)
 #+end_src
 
 * My key bindings
