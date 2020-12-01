@@ -1,12 +1,16 @@
 #+STARTUP: showall
 
 * My emacs config
-I started using emacs somewhat recently and came from sublime, so sorry for any weirdness :). I mostly made the switch because it's free, and also free, and I wanted to learn me some lisp.
-I was mostly 'inspired' by various configs I found on github, but I've got a few customisations of my own too.
-It's currently geared more towards web development, but I would like to do more with it, so hopefully this should be updated.
+  This config is mostly a mishmash of packages and things that I needed at the time - there's not too much structure to it 😅
 
-** TODO Things to do
-   - Group buffers in ibuffer and use that for grouping tabs
-   - Clean up multicursor customisations
-   - Clean up counsel + ivy + swiper
-   - Clean up indent level settings
+  Major things:
+  - early init
+  - org-mode
+  - use-package
+
+  I've borrowed a few things from mostly from doom-emacs, and other configs and threads I've come across.
+  It's currently geared more towards web development.
+  I use the native-comp branch (compiled myself) with regular emacs 27 as a fallback, on arch linux. I sometimes use emacs in windows as well, so there is some support for it as well.
+
+** TODO lsp-mode
+   I have this setup locally, just haven't committed it because it's way too messy right now (although it does technically work). Will get round to committing it eventually... 🦥
