@@ -519,3 +519,24 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
 	   ("C-c C-p" . rotate-layout)))
 #+END_SRC
 
+* telephone-line
+  Customising the mode-line so it looks nice and is easier to read.
+  The customisations to telephone-line are just to put the buffer name as the first thing on the left,
+  otherwise it gets hard to read when lots of windows are open.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package telephone-line
+    :ensure t
+    :config (progn
+	      (defface my/telephone-line-blue '((t (:foreground "white" :background "MidnightBlue"))) "")
+	      (add-to-list 'telephone-line-faces '(blue . (my/telephone-line-blue . my/telephone-line-blue)))
+	      (setq telephone-line-lhs
+		    '((blue . (telephone-line-buffer-name-segment))
+		      (accent . (telephone-line-buffer-modified-segment
+				 telephone-line-projectile-segment))
+		      (nil   . (telephone-line-vc-segment
+				telephone-line-erc-modified-channels-segment
+				telephone-line-process-segment))))
+	      (telephone-line-mode 1)))
+#+END_SRC
+
