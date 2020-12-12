@@ -496,14 +496,19 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
 #+END_SRC
 
 * window-jump
-#+BEGIN_SRC emacs-lisp
+  For easy window switching.
+
+  I don't really like these bindings because I have to move my hand to the arrow keys and back.
+  The problem is I don't want it in a keymap either, and the (n p f b) keys already have modifier bindings
+  (super is reserved for global (non-emacs) shortcuts)
+#+begin_src emacs-lisp
   (use-package window-jump
     :ensure t
     :bind (("M-<right>" . window-jump-right)
 	   ("M-<left>" . window-jump-left)
 	   ("M-<up>" . window-jump-up)
 	   ("M-<down>" . window-jump-down)))
-#+END_SRC
+#+end_src
 
 * git-timemachine
 #+BEGIN_SRC emacs-lisp
