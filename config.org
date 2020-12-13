@@ -211,6 +211,44 @@
 #+END_SRC
 
 
+* lsp-mode
+  Somewhat of a rush job right now, but it works 😅
+** main
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+    :init (setq lsp-keymap-prefix "C-'")
+    :hook (;; replace xxx-mode with concrete major-mode(e. g. python-mode)
+	   (web-mode . (lambda ()
+			 (when (or (string= (file-name-extension buffer-file-name) "ts")
+				   (string= (file-name-extension buffer-file-name) "tsx"))
+			   (lsp-deferred))))
+	   ;; if you want which-key integration
+	   (lsp-mode . lsp-enable-which-key-integration))
+    :commands (lsp lsp-deferred)
+    :config (progn
+	      (setenv "PATH" (concat (getenv "PATH") ":/home/lutfi/.npm-packages/bin"))
+	      (add-to-list 'exec-path "/home/lutfi/.npm-packages/bin")
+	      (setq lsp-prefer-flymake nil)))
+#+END_SRC
+
+** lsp-ui
+   lsp-mode auto-detects and configures lsp-ui and company-lsp
+   to turn off set lsp-auto-configure to nil
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :ensure t
+    :after lsp-mode)
+#+end_src
+
+** lsp-ivy
+#+begin_src emacs-lisp
+  (use-package lsp-ivy
+    :ensure t
+    :after lsp-mode
+    :commands lsp-ivy-workspace-symbol)
+#+end_src
 
 * emacs-lisp-mode
 #+BEGIN_SRC emacs-lisp
@@ -410,6 +448,14 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
 					(setq-local flycheck-disabled-checkers
 						    (append flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
       (add-hook 'flycheck-mode-hook #'set-eslint)
+      (add-hook 'lsp-mode-hook (lambda ()
+				 (when (string-equal major-mode "web-mode")
+				   (progn
+				     (flycheck-add-mode 'javascript-eslint 'web-mode)
+				     (set-eslint)
+				     (lsp-ui-mode)
+				     (flycheck-add-next-checker 'lsp '(t . javascript-eslint))))))
+      ))
 #+END_SRC
 
 ** flycheck-flow
