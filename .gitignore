@@ -1,3 +1,4 @@
+.cache/
 auto-save-list/
 backups/
 elpa/
@@ -5,10 +6,16 @@ eshell/
 games/
 url/
 emojis/
+eln-cache/
+transient/
+.lsp-session*
+.org-id-locations
 *.elc
+config.el
 emacs-custom.el
 ido.last
 projectile-bookmarks.eld
 projectile.cache
+projects
 recentf
-config.el
+tramp
