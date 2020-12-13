@@ -412,6 +412,22 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
       (add-hook 'flycheck-mode-hook #'set-eslint)
 #+END_SRC
 
+** flycheck-flow
+   #+BEGIN_SRC emacs-lisp
+     (defun set-flow ()
+       (let ((flow (my/recursive-locate-file "node_modules" '(".bin" "flow"))))
+	 (when flow
+	   (setq-local flycheck-javascript-flow-executable flow))))
+
+     (use-package flycheck-flow
+       :ensure t
+       :after flycheck
+       :hook (flycheck-mode . set-flow)
+       :config
+       (progn
+	 (flycheck-add-mode 'javascript-flow 'flow-minor-mode)
+	 (flycheck-add-next-checker 'javascript-flow 'javascript-eslint)))
+   #+END_SRC
 
 * neotree
 #+BEGIN_SRC emacs-lisp
@@ -574,6 +590,13 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
 				telephone-line-erc-modified-channels-segment
 				telephone-line-process-segment))))
 	      (telephone-line-mode 1)))
+#+END_SRC
+
+* flow
+#+BEGIN_SRC emacs-lisp
+  (use-package flow-minor-mode
+    :ensure t
+    :hook (web-mode . flow-minor-enable-automatically))
 #+END_SRC
 
 * emojis / emojify
