@@ -13,16 +13,22 @@
         downcase-region
         electric-pair-delete-pair
         eshell-pcomplete
+        eval-last-sexp
         forward-sexp
         haml-electric-backspace
+        handle-switch-frame
         indent-for-tab-command
         ivy-alt-done
         kill-region
+        lsp-ui-doc--handle-mouse-movement
         markdown-outdent-or-delete
         org-cycle
+        org-end-of-line
         org-return
+        org-return-indent
         org-self-insert-command
         org-yank
+        overwrite-mode
         revert-buffer
         transpose-words
         upcase-region
