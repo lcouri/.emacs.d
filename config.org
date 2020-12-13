@@ -174,6 +174,43 @@
   (global-display-line-numbers-mode t)
 #+END_SRC
 
+* Custom functions
+** my/parent-dir
+   Helper function to get the parent directory of a file/folder
+#+begin_src emacs-lisp
+  (defun my/parent-dir (filename)
+    "Return parent directory of absolute FILENAME."
+    (when filename
+      (file-name-directory (directory-file-name filename))))
+#+end_src
+
+** my/recursive-locate-file
+   This is used to find the project local executables for eslint and flow
+#+BEGIN_SRC emacs-lisp
+  (defun my/recursive-locate-file (folder file &optional parent-dir)
+    "FOLDER: the folder to look for
+  FILE: the file to find in FOLDER. Can be a string or list of strings to find a file in subfolders.
+
+  e.g. (my/recursive-locate-file \"node_modules\" '(\".bin\" \"eslint\")) will go up the tree to find the
+  node_modules dir and if node_modules/.bin/eslint doesn't exist, it will try to find it further up the tree."
+      (let* ((file-path (if (stringp file)
+			    (concat folder file)
+			  (concat (file-name-as-directory folder) (directory-file-name (mapconcat 'file-name-as-directory file "")))))
+	     (root (locate-dominating-file
+		    (or parent-dir (buffer-file-name) default-directory)
+		    folder))
+	     (found-file (and root
+			      (expand-file-name file-path root)))
+	     (par-dir (my/parent-dir root)))
+	(cond ((and found-file (file-exists-p found-file))
+	       found-file)
+	      ((or (not par-dir) (string-equal par-dir "/"))
+	       nil)
+	      (t
+	       (my/recursive-locate-file folder file par-dir)))))
+#+END_SRC
+
+
 
 * emacs-lisp-mode
 #+BEGIN_SRC emacs-lisp
@@ -350,19 +387,14 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
 #+END_SRC
 
 * flycheck
-Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html][this post]] to get flycheck using the local eslint.
+** main
+   Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html][this post]] to get flycheck using the local eslint.
 #+BEGIN_SRC emacs-lisp
-  (defun my/find-eslint-from-node-modules (&optional filename)
-    (let* ((root (locate-dominating-file
-		  (or filename (buffer-file-name) default-directory)
-		  "node_modules"))
-	   (eslint (and root
-			(expand-file-name "node_modules/eslint/bin/eslint.js"
-					  root))))
+  (defun set-eslint ()
+    (let ((eslint (my/recursive-locate-file "node_modules" '(".bin" "eslint"))))
       (when eslint
-	(if (file-executable-p eslint)
-	    (setq-local flycheck-javascript-eslint-executable eslint)
-	  (my/find-eslint-from-node-modules (my/parent-dir root))))))
+	(setq-local flycheck-javascript-eslint-executable eslint))))
+
   (use-package flycheck
     :ensure t
     :init (global-flycheck-mode)
@@ -371,17 +403,13 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
       (setq-default flycheck-temp-prefix ".flycheck")
       (flycheck-add-mode 'javascript-eslint 'web-mode)
       (add-hook 'web-mode-hook (lambda ()
-                                 (unless (member 'javascript-jshint flycheck-disabled-checkers)
-                                   (setq-local flycheck-disabled-checkers
-                                               (append flycheck-disabled-checkers '(javascript-jshint))))))
+				 (unless (member 'javascript-jshint flycheck-disabled-checkers)
+				   (setq-local flycheck-disabled-checkers
+					       (append flycheck-disabled-checkers '(javascript-jshint))))))
       (add-hook 'emacs-lisp-mode-hook (lambda ()
-                                        (setq-local flycheck-disabled-checkers
-                                                    (append flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
-      (flycheck-add-mode 'javascript-jshint 'js2-mode)
-      (add-hook 'flycheck-mode-hook #'my/find-eslint-from-node-modules))
-    :custom-face
-    (flycheck-error ((t (:background "#550000"))))
-    (flycheck-warning ((t (:background "#885500")))))
+					(setq-local flycheck-disabled-checkers
+						    (append flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
+      (add-hook 'flycheck-mode-hook #'set-eslint)
 #+END_SRC
 
 
