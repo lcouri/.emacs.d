@@ -585,7 +585,8 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
     :config
     (progn
       (add-hook 'after-init-hook 'global-company-mode)
-      (setq company-dabbrev-downcase nil)))
+      (setq company-dabbrev-downcase nil)
+      (setq company-dabbrev-ignore-case nil)))
 #+END_SRC
 
 * window-jump
