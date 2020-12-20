@@ -135,6 +135,28 @@
   (setq-default help-window-select t)
 #+end_src
 
+** uniquify
+   This way when we open 2 files named =foo= from a folder structure like:
+   folder1
+     |- foo
+   folder2
+     |- foo
+   the buffers will be named like =folder1/foo=, rather than =foo<folder1>=
+#+begin_src emacs-lisp
+  (setq-default uniquify-buffer-name-style 'forward
+		uniquify-separator "/")
+#+end_src
+
+   Rerationalise buffer names after a buffer has been killed.
+#+begin_src emacs-lisp
+  (setq-default uniquify-after-kill-buffer-p t)
+#+end_src
+
+  Ignore special buffers
+#+begin_src emacs-lisp
+  (setq-default uniquify-ignore-buffers-re "^\\*")
+#+end_src
+
 * My key bindings
 #+begin_src emacs-lisp
   (global-set-key (kbd "RET") 'newline-and-indent)
