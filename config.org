@@ -534,8 +534,7 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
     :bind ("C-c p" . 'projectile-command-map)
     :config
     (projectile-mode t)
-    (setq projectile-enable-caching t)
-    (setq projectile-completion-system 'ivy))
+    (setq projectile-enable-caching t))
   (use-package counsel-projectile
     :ensure t
     :after (counsel projectile)
