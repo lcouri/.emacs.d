@@ -130,6 +130,11 @@
   (setq split-height-threshold 160)
 #+end_src
 
+** Select help
+#+begin_src emacs-lisp
+  (setq-default help-window-select t)
+#+end_src
+
 * My key bindings
 #+begin_src emacs-lisp
   (global-set-key (kbd "RET") 'newline-and-indent)
