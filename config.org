@@ -135,6 +135,12 @@
   (setq-default help-window-select t)
 #+end_src
 
+** display line numbers
+   It's just too useful to not have.
+#+BEGIN_SRC emacs-lisp
+  (global-display-line-numbers-mode t)
+#+END_SRC
+
 ** uniquify
    This way when we open 2 files named =foo= from a folder structure like:
    folder1
@@ -157,16 +163,6 @@
   (setq-default uniquify-ignore-buffers-re "^\\*")
 #+end_src
 
-* My key bindings
-#+begin_src emacs-lisp
-  (global-set-key (kbd "RET") 'newline-and-indent)
-  (global-set-key (kbd "<f5>") 'revert-buffer)
-  (global-set-key (kbd "M-u") 'upcase-dwim)
-  (global-set-key (kbd "M-l") 'downcase-dwim)
-  (global-set-key (kbd "M-c") 'capitalize-dwim)
-#+end_src
-
-* Built-in Packages
 ** whitespace
    I think it's useful to see the indentation and general whitespace when programming.
    Whitespace-mode let's me see at a glance whether a tab or space is being used, or there's extra
@@ -187,8 +183,8 @@
    #+BEGIN_SRC emacs-lisp
      (defalias 'list-buffers 'ibuffer-other-window)
      (defadvice ibuffer-other-window (around ibuffer-point-to-most-recent) ()
-                "Open ibuffer with cursor pointed to most recent (non-minibuffer) buffer name"
-                (let ((recent-buffer-name
+		"Open ibuffer with cursor pointed to most recent (non-minibuffer) buffer name"
+		(let ((recent-buffer-name
                        (if (minibufferp (buffer-name))
                            (buffer-name
                             (window-buffer (minibuffer-selected-window)))
@@ -198,10 +194,14 @@
      (ad-activate 'ibuffer-other-window)
    #+END_SRC
 
-** display-line-numbers
-#+BEGIN_SRC emacs-lisp
-  (global-display-line-numbers-mode t)
-#+END_SRC
+* My key bindings
+#+begin_src emacs-lisp
+  (global-set-key (kbd "RET") 'newline-and-indent)
+  (global-set-key (kbd "<f5>") 'revert-buffer)
+  (global-set-key (kbd "M-u") 'upcase-dwim)
+  (global-set-key (kbd "M-l") 'downcase-dwim)
+  (global-set-key (kbd "M-c") 'capitalize-dwim)
+#+end_src
 
 * Custom functions
 ** my/parent-dir
