@@ -13,11 +13,13 @@
      (use-package doom-themes
        :ensure t
        :config
-       (load-theme 'doom-monokai-classic t)
-       :custom-face
-       (font-lock-variable-name-face ((t (:foreground "#fd971f"))))
-       (ivy-current-match ((t (:background "#525254")))) ;; would like this a bit lighter so I can actually see it
-       (default ((t :background "#000000"))))
+       (progn (load-theme 'doom-monokai-classic t)
+	      (custom-theme-set-faces
+	       'doom-monokai-classic
+	       '(font-lock-variable-name-face ((t (:foreground "#fd971f"))))
+	       '(ivy-current-match ((t (:background "#525254")))) ;; would like this a bit lighter so I can actually see it
+	       '(default ((t :background "#000000"))))
+	      (enable-theme 'doom-monokai-classic)))
    #+END_SRC
 
 * Defaults
