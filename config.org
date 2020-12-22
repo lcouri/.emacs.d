@@ -570,19 +570,6 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
     :ensure t)
 #+END_SRC
 
-* origami
-  Need to mess with this more, and try to get it to auto-fold some files (have a rule like fold all functions at a certain level or something).
-#+BEGIN_SRC emacs-lisp
-  (use-package origami
-    :ensure t
-    :config
-    (progn
-      (global-origami-mode t)
-      (define-prefix-command 'origami-mode-map)
-      (global-set-key (kbd "C-c f") 'origami-mode-map)
-      (define-key origami-mode-map (kbd "f") 'origami-recursively-toggle-node)))
-#+END_SRC
-
 * company
 #+BEGIN_SRC emacs-lisp
   (use-package company
