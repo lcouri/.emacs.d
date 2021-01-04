@@ -19,10 +19,3 @@
 ;; cursor color is concerned).
 (advice-add #'x-apply-session-resources :override #'ignore)
 ;; ------------------------
-
-;; Set up package archives
-(with-eval-after-load 'package
-  (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/") t)
-  (add-to-list 'package-archives
-               '("org" . "https://orgmode.org/elpa/") t))
