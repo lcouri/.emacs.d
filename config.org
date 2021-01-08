@@ -23,6 +23,13 @@
    #+END_SRC
 
 * Defaults
+** disable bell
+   It's seriously annoys me, and I don't ever want to hear the pc speaker.
+   Weirdly I'd been using emacs for a few years before I ever heard it beep...
+#+begin_src emacs-lisp
+  (setq ring-bell-function 'ignore)
+#+end_src
+
 ** font
    Set default font family to "Hack" (my favourite monospace font) if it exists.
 #+begin_src emacs-lisp
