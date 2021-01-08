@@ -24,14 +24,11 @@
 
 * Defaults
 ** font
-   Set default font size.
-#+begin_src emacs-lisp
-  (set-face-attribute 'default nil :height 95)
-#+end_src
-
    Set default font family to "Hack" (my favourite monospace font) if it exists.
 #+begin_src emacs-lisp
-  (when (find-font (font-spec :name "Hack")) (set-face-attribute 'default nil :family "Hack"))
+  (when (find-font (font-spec :name "Hack")) (progn
+					       (set-face-attribute 'default nil :font "Hack-10")
+					       (set-frame-font "Hack-10" nil t)))
 #+end_src
 
 ** emacs-custom file
