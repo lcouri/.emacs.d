@@ -11,6 +11,3 @@
   I've borrowed a few things from mostly from doom-emacs, and other configs and threads I've come across.
   It's currently geared more towards web development.
   I use the native-comp branch (compiled myself) with regular emacs 27 as a fallback, on arch linux. I sometimes use emacs in windows as well, so there is some support for it as well.
-
-** TODO lsp-mode
-   I have this setup locally, just haven't committed it because it's way too messy right now (although it does technically work). Will get round to committing it eventually... 🦥
