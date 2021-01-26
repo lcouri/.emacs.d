@@ -285,8 +285,8 @@
 
 * emacs-lisp-mode
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'emacs-lisp-mode-hook (lambda () (setq indent-tabs-mode nil)))
 #+END_SRC
+  (add-hook 'emacs-lisp-mode-hook (lambda () (setq-local indent-tabs-mode nil)))
 
 * org-mode
 ** Installation
@@ -312,7 +312,7 @@
   (use-package web-mode
     :ensure t
     :mode ("\\.js\\'" "\\.jsx\\'" "\\.html\\'" "\\.tsx\\'" "\\.ts\\'")
-    :hook (web-mode . (lambda () (setq indent-tabs-mode nil)))
+    :hook (web-mode . (lambda () (setq-local indent-tabs-mode nil)))
     :config
     (progn
       (setq web-mode-markup-indent-offset 2)
@@ -337,9 +337,9 @@
     :ensure t
     :mode ("\\.scss\\''" "\\.sass\\''")
     :hook (scss-mode . (lambda () (progn
-                                    (setq indent-tabs-mode nil)
-                                    (setq css-indent-offset 2)))))
 #+END_SRC
+				    (setq-local indent-tabs-mode nil)
+				    (setq css-indent-offset 2)))))
 
 * sass-mode
 #+BEGIN_SRC emacs-lisp
@@ -354,6 +354,7 @@
     :ensure t
     :mode ("\\.json\\'")
     :hook (json-mode . (lambda () (progn
+				    (setq-local indent-tabs-mode t)
 				    (setq-local js-indent-level 8)))))
 #+END_SRC
 
