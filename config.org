@@ -129,7 +129,7 @@
   (global-auto-revert-mode)
 #+end_src
 
-** Adjust spit-height-threshold
+** Adjust split-height-threshold
 #+begin_src emacs-lisp
   (setq split-height-threshold 160)
 #+end_src
