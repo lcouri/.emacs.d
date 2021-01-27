@@ -3,9 +3,9 @@
 
 * Consts
   Consts borrowed from doom-emacs (core/core.el)
-#+begin_src emacs-lisp
-  (defconst IS-WINDOWS (memq system-type '(cygwin windows-nt ms-dos)))
-#+end_src
+  #+begin_src emacs-lisp
+    (defconst IS-WINDOWS (memq system-type '(cygwin windows-nt ms-dos)))
+  #+end_src
 
 * Themes
 ** Doom-monokai-classic (current theme)
@@ -26,124 +26,124 @@
 ** disable bell
    It's seriously annoys me, and I don't ever want to hear the pc speaker.
    Weirdly I'd been using emacs for a few years before I ever heard it beep...
-#+begin_src emacs-lisp
-  (setq ring-bell-function 'ignore)
-#+end_src
+   #+begin_src emacs-lisp
+     (setq ring-bell-function 'ignore)
+   #+end_src
 
 ** font
    Set default font family to "Hack" (my favourite monospace font) if it exists.
-#+begin_src emacs-lisp
-  (when (find-font (font-spec :name "Hack")) (progn
-					       (set-face-attribute 'default nil :font "Hack-10")
-					       (set-frame-font "Hack-10" nil t)))
-#+end_src
+   #+begin_src emacs-lisp
+     (when (find-font (font-spec :name "Hack")) (progn
+						  (set-face-attribute 'default nil :font "Hack-10")
+						  (set-frame-font "Hack-10" nil t)))
+   #+end_src
 
 ** emacs-custom file
    Save customise settings in its own file, instead of init.el
-#+begin_src emacs-lisp
-  (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
-  (when (file-exists-p custom-file)
-    (load custom-file))
-#+end_src
+   #+begin_src emacs-lisp
+     (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
+     (when (file-exists-p custom-file)
+       (load custom-file))
+   #+end_src
 
 ** Enable disabled functions
-#+begin_src emacs-lisp
-  (put 'downcase-region 'disabled nil)
-  (put 'upcase-region 'disabled nil)
-  (put 'narrow-to-region 'disabled nil)
-  (put 'scroll-left 'disabled nil)
-  (put 'scroll-right 'disabled nil)
-  (put 'dired-find-alternate-file 'disabled nil)
-#+end_src
+   #+begin_src emacs-lisp
+     (put 'downcase-region 'disabled nil)
+     (put 'upcase-region 'disabled nil)
+     (put 'narrow-to-region 'disabled nil)
+     (put 'scroll-left 'disabled nil)
+     (put 'scroll-right 'disabled nil)
+     (put 'dired-find-alternate-file 'disabled nil)
+   #+end_src
 
 ** yes-or-no-p
    So weird to have to type out "yes" and "no" at a prompt.
    I would like to have a version where "RET" also works as yes.
-#+begin_src emacs-lisp
-  (defalias 'yes-or-no-p 'y-or-n-p)
-#+end_src
+   #+begin_src emacs-lisp
+     (defalias 'yes-or-no-p 'y-or-n-p)
+   #+end_src
 
 ** utf-8
    According to doom-emacs, this is all that's needed to make utf-8 the default coding system.
-#+begin_src emacs-lisp
-  (when (fboundp 'set-charset-priority)
-    (set-charset-priority 'unicode))
-  (prefer-coding-system 'utf-8)
-  (setq locale-coding-system 'utf-8)
-  (unless IS-WINDOWS
-    (setq selection-coding-system 'utf-8))
-#+end_src
+   #+begin_src emacs-lisp
+     (when (fboundp 'set-charset-priority)
+       (set-charset-priority 'unicode))
+     (prefer-coding-system 'utf-8)
+     (setq locale-coding-system 'utf-8)
+     (unless IS-WINDOWS
+       (setq selection-coding-system 'utf-8))
+   #+end_src
 
 ** Keep all backup and auto-save files in one place
-#+begin_src emacs-lisp
-  (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups/"))))
-  (setq auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-save-list/") t)))
-#+end_src
+   #+begin_src emacs-lisp
+     (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups/"))))
+     (setq auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-save-list/") t)))
+   #+end_src
 
 ** Only need one space for end of sentence.
-#+begin_src emacs-lisp
-  (setq sentence-end-double-space nil)
-#+end_src
+   #+begin_src emacs-lisp
+     (setq sentence-end-double-space nil)
+   #+end_src
 
 ** Delete the region when you start typing, like a normal editor.
-#+begin_src emacs-lisp
-  (delete-selection-mode t)
-#+end_src
+   #+begin_src emacs-lisp
+     (delete-selection-mode t)
+   #+end_src
 
 ** Hightlight and insert matching parenthesis.
    Also add single quote to electric-pairs for javascript.
-#+begin_src emacs-lisp
-  (show-paren-mode t)
-  (electric-pair-mode 1)
-  (push '(?\' . ?\') electric-pair-pairs)
-#+end_src
+   #+begin_src emacs-lisp
+     (show-paren-mode t)
+     (electric-pair-mode 1)
+     (push '(?\' . ?\') electric-pair-pairs)
+   #+end_src
 
 ** Show column numbers in the mode line.
-#+begin_src emacs-lisp
-  (column-number-mode t)
-#+end_src
+   #+begin_src emacs-lisp
+     (column-number-mode t)
+   #+end_src
 
 ** Disable all line wrapping.
-#+begin_src emacs-lisp
-  (global-visual-line-mode 0)
-  (setq-default truncate-lines t)
-#+end_src
+   #+begin_src emacs-lisp
+     (global-visual-line-mode 0)
+     (setq-default truncate-lines t)
+   #+end_src
 
 ** Slow down that blinking.
-#+begin_src emacs-lisp
-    (setq blink-cursor-interval 0.65)
-#+end_src
+   #+begin_src emacs-lisp
+     (setq blink-cursor-interval 0.65)
+   #+end_src
 
 ** Stop the buffer jumping around so much while scrolling up and down.
-#+begin_src emacs-lisp
-  (setq scroll-conservatively 100)
-#+end_src
+   #+begin_src emacs-lisp
+     (setq scroll-conservatively 100)
+   #+end_src
 
 ** Highlight the line the cursor is on.
-#+begin_src emacs-lisp
-  (when window-system (global-hl-line-mode t))
-#+end_src
+   #+begin_src emacs-lisp
+     (when window-system (global-hl-line-mode t))
+   #+end_src
 
 ** So there's no discrepancy when files change outside of emacs.
-#+begin_src emacs-lisp
-  (global-auto-revert-mode)
-#+end_src
+   #+begin_src emacs-lisp
+     (global-auto-revert-mode)
+   #+end_src
 
 ** Adjust split-height-threshold
-#+begin_src emacs-lisp
-  (setq split-height-threshold 160)
-#+end_src
+   #+begin_src emacs-lisp
+     (setq split-height-threshold 160)
+   #+end_src
 
 ** Select help
-#+begin_src emacs-lisp
-  (setq-default help-window-select t)
-#+end_src
+   #+begin_src emacs-lisp
+     (setq-default help-window-select t)
+   #+end_src
 
 ** display line numbers
    It's just too useful to not have.
-#+BEGIN_SRC emacs-lisp
-  (global-display-line-numbers-mode t)
-#+END_SRC
+   #+begin_src emacs-lisp
+     (global-display-line-numbers-mode t)
+   #+end_src
 
 ** uniquify
    This way when we open 2 files named =foo= from a folder structure like:
@@ -152,20 +152,20 @@
    folder2
      |- foo
    the buffers will be named like =folder1/foo=, rather than =foo<folder1>=
-#+begin_src emacs-lisp
-  (setq-default uniquify-buffer-name-style 'forward
-		uniquify-separator "/")
-#+end_src
+   #+begin_src emacs-lisp
+     (setq-default uniquify-buffer-name-style 'forward
+		   uniquify-separator "/")
+   #+end_src
 
    Rerationalise buffer names after a buffer has been killed.
-#+begin_src emacs-lisp
-  (setq-default uniquify-after-kill-buffer-p t)
-#+end_src
+   #+begin_src emacs-lisp
+     (setq-default uniquify-after-kill-buffer-p t)
+   #+end_src
 
   Ignore special buffers
-#+begin_src emacs-lisp
-  (setq-default uniquify-ignore-buffers-re "^\\*")
-#+end_src
+   #+begin_src emacs-lisp
+     (setq-default uniquify-ignore-buffers-re "^\\*")
+   #+end_src
 
 ** whitespace
    I think it's useful to see the indentation and general whitespace when programming.
@@ -184,7 +184,7 @@
    #+end_src
 
 ** ibuffer
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defalias 'list-buffers 'ibuffer-other-window)
      (defadvice ibuffer-other-window (around ibuffer-point-to-most-recent) ()
 		"Open ibuffer with cursor pointed to most recent (non-minibuffer) buffer name"
@@ -196,174 +196,174 @@
                   ad-do-it
                   (ibuffer-jump-to-buffer recent-buffer-name)))
      (ad-activate 'ibuffer-other-window)
-   #+END_SRC
+   #+end_src
 
 * My key bindings
-#+begin_src emacs-lisp
-  (global-set-key (kbd "RET") 'newline-and-indent)
-  (global-set-key (kbd "<f5>") 'revert-buffer)
-  (global-set-key (kbd "M-u") 'upcase-dwim)
-  (global-set-key (kbd "M-l") 'downcase-dwim)
-  (global-set-key (kbd "M-c") 'capitalize-dwim)
-#+end_src
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "RET") 'newline-and-indent)
+    (global-set-key (kbd "<f5>") 'revert-buffer)
+    (global-set-key (kbd "M-u") 'upcase-dwim)
+    (global-set-key (kbd "M-l") 'downcase-dwim)
+    (global-set-key (kbd "M-c") 'capitalize-dwim)
+  #+end_src
 
 * Custom functions
 ** my/parent-dir
    Helper function to get the parent directory of a file/folder
-#+begin_src emacs-lisp
-  (defun my/parent-dir (filename)
-    "Return parent directory of absolute FILENAME."
-    (when filename
-      (file-name-directory (directory-file-name filename))))
-#+end_src
+   #+begin_src emacs-lisp
+     (defun my/parent-dir (filename)
+       "Return parent directory of absolute FILENAME."
+       (when filename
+	 (file-name-directory (directory-file-name filename))))
+   #+end_src
 
 ** my/recursive-locate-file
    This is used to find the project local executables for eslint and flow
-#+BEGIN_SRC emacs-lisp
-  (defun my/recursive-locate-file (folder file &optional parent-dir)
-    "FOLDER: the folder to look for
-  FILE: the file to find in FOLDER. Can be a string or list of strings to find a file in subfolders.
+   #+begin_src emacs-lisp
+     (defun my/recursive-locate-file (folder file &optional parent-dir)
+       "FOLDER: the folder to look for
+     FILE: the file to find in FOLDER. Can be a string or list of strings to find a file in subfolders.
 
-  e.g. (my/recursive-locate-file \"node_modules\" '(\".bin\" \"eslint\")) will go up the tree to find the
-  node_modules dir and if node_modules/.bin/eslint doesn't exist, it will try to find it further up the tree."
-      (let* ((file-path (if (stringp file)
-			    (concat folder file)
-			  (concat (file-name-as-directory folder) (directory-file-name (mapconcat 'file-name-as-directory file "")))))
-	     (root (locate-dominating-file
-		    (or parent-dir (buffer-file-name) default-directory)
-		    folder))
-	     (found-file (and root
-			      (expand-file-name file-path root)))
-	     (par-dir (my/parent-dir root)))
-	(cond ((and found-file (file-exists-p found-file))
-	       found-file)
-	      ((or (not par-dir) (string-equal par-dir "/"))
-	       nil)
-	      (t
-	       (my/recursive-locate-file folder file par-dir)))))
-#+END_SRC
+     e.g. (my/recursive-locate-file \"node_modules\" '(\".bin\" \"eslint\")) will go up the tree to find the
+     node_modules dir and if node_modules/.bin/eslint doesn't exist, it will try to find it further up the tree."
+       (let* ((file-path (if (stringp file)
+			     (concat folder file)
+			   (concat (file-name-as-directory folder) (directory-file-name (mapconcat 'file-name-as-directory file "")))))
+	      (root (locate-dominating-file
+		     (or parent-dir (buffer-file-name) default-directory)
+		     folder))
+	      (found-file (and root
+			       (expand-file-name file-path root)))
+	      (par-dir (my/parent-dir root)))
+	 (cond ((and found-file (file-exists-p found-file))
+		found-file)
+	       ((or (not par-dir) (string-equal par-dir "/"))
+		nil)
+	       (t
+		(my/recursive-locate-file folder file par-dir)))))
+   #+end_src
 
 
 * lsp-mode
   Somewhat of a rush job right now, but it works 😅
 ** main
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :ensure t
-    ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-    :init (setq lsp-keymap-prefix "C-'")
-    :hook (;; replace xxx-mode with concrete major-mode(e. g. python-mode)
-	   (web-mode . (lambda ()
-			 (when (or (string= (file-name-extension buffer-file-name) "ts")
-				   (string= (file-name-extension buffer-file-name) "tsx"))
-			   (lsp-deferred))))
-	   ;; if you want which-key integration
-	   (lsp-mode . lsp-enable-which-key-integration))
-    :commands (lsp lsp-deferred)
-    :config (progn
-	      (setenv "PATH" (concat (getenv "PATH") ":/home/lutfi/.npm-packages/bin"))
-	      (add-to-list 'exec-path "/home/lutfi/.npm-packages/bin")
-	      (setq lsp-prefer-flymake nil)))
-#+END_SRC
+   #+begin_src emacs-lisp
+     (use-package lsp-mode
+       :ensure t
+       ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+       :init (setq lsp-keymap-prefix "C-'")
+       :hook (;; replace xxx-mode with concrete major-mode(e. g. python-mode)
+	      (web-mode . (lambda ()
+			    (when (or (string= (file-name-extension buffer-file-name) "ts")
+				      (string= (file-name-extension buffer-file-name) "tsx"))
+			      (lsp-deferred))))
+	      ;; if you want which-key integration
+	      (lsp-mode . lsp-enable-which-key-integration))
+       :commands (lsp lsp-deferred)
+       :config (progn
+		 (setenv "PATH" (concat (getenv "PATH") ":/home/lutfi/.npm-packages/bin"))
+		 (add-to-list 'exec-path "/home/lutfi/.npm-packages/bin")
+		 (setq lsp-prefer-flymake nil)))
+   #+end_src
 
 ** lsp-ui
    lsp-mode auto-detects and configures lsp-ui and company-lsp
    to turn off set lsp-auto-configure to nil
-#+begin_src emacs-lisp
-  (use-package lsp-ui
-    :ensure t
-    :after lsp-mode)
-#+end_src
-
+   #+begin_src emacs-lisp
+     (use-package lsp-ui
+       :ensure t
+      :after lsp-mode)
+   #+end_src
 ** lsp-ivy
-#+begin_src emacs-lisp
-  (use-package lsp-ivy
-    :ensure t
-    :after lsp-mode
-    :commands lsp-ivy-workspace-symbol)
-#+end_src
+   #+begin_src emacs-lisp
+     (use-package lsp-ivy
+       :ensure t
+       :after lsp-mode
+       :commands lsp-ivy-workspace-symbol)
+   #+end_src
 
 * emacs-lisp-mode
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
-  (add-hook 'emacs-lisp-mode-hook (lambda () (setq-local indent-tabs-mode nil)))
+  #+begin_src emacs-lisp
+    (add-hook 'emacs-lisp-mode-hook (lambda () (setq-local indent-tabs-mode nil)))
+  #+end_src
 
 * org-mode
 ** Installation
    Use the latest org-mode package from the org archives.
    
-#+begin_src emacs-lisp
-  (use-package org
-    :ensure org-plus-contrib
-    :pin org)
-#+end_src
+   #+begin_src emacs-lisp
+     (use-package org
+       :ensure org-plus-contrib
+       :pin org)
+   #+end_src
 
 ** Org packages
 *** org-superstar
     For fancy looking stars
-#+begin_src emacs-lisp
-  (use-package org-superstar
-    :ensure t
-    :hook (org-mode . (lambda () (org-superstar-mode 1))))
-#+end_src
+    #+begin_src emacs-lisp
+      (use-package org-superstar
+	:ensure t
+	:hook (org-mode . (lambda () (org-superstar-mode 1))))
+    #+end_src
 
 * web-mode
-#+BEGIN_SRC emacs-lisp
-  (use-package web-mode
-    :ensure t
-    :mode ("\\.js\\'" "\\.jsx\\'" "\\.html\\'" "\\.tsx\\'" "\\.ts\\'")
-    :hook (web-mode . (lambda () (setq-local indent-tabs-mode nil)))
-    :config
-    (progn
-      (setq web-mode-markup-indent-offset 2)
-      (setq web-mode-code-indent-offset 2)
-      (setq web-mode-css-indent-offset 2)
-      (setq web-mode-attr-indent-offset 2)
-      (setq web-mode-attr-value-indent-offset 2)
-      ;; (setq web-mode-enable-current-element-highlight t)
-      (setq web-mode-enable-current-column-highlight t)
-      (setq web-mode-enable-auto-quoting nil)
-      (setq web-mode-indentation-params nil)
-      (setq-default web-mode-comment-formats '(("javascript" . "//")
-					       ("typescript" . "//")
-					       ("jsx" . "//")
-					       ("css" . "/*")))))
+  #+begin_src emacs-lisp
+    (use-package web-mode
+      :ensure t
+      :mode ("\\.js\\'" "\\.jsx\\'" "\\.html\\'" "\\.tsx\\'" "\\.ts\\'")
+      :hook (web-mode . (lambda () (setq-local indent-tabs-mode nil)))
+      :config
+      (progn
+	(setq web-mode-markup-indent-offset 2)
+	(setq web-mode-code-indent-offset 2)
+	(setq web-mode-css-indent-offset 2)
+	(setq web-mode-attr-indent-offset 2)
+	(setq web-mode-attr-value-indent-offset 2)
+	;; (setq web-mode-enable-current-element-highlight t)
+	(setq web-mode-enable-current-column-highlight t)
+	(setq web-mode-enable-auto-quoting nil)
+	(setq web-mode-indentation-params nil)
+	(setq-default web-mode-comment-formats '(("javascript" . "//")
+						 ("typescript" . "//")
+						 ("jsx" . "//")
+						 ("css" . "/*")))))
 
-#+END_SRC
+  #+end_src
 
 * scss-mode
-#+BEGIN_SRC emacs-lisp
-  (use-package scss-mode
-    :ensure t
-    :mode ("\\.scss\\''" "\\.sass\\''")
-    :hook (scss-mode . (lambda () (progn
-#+END_SRC
-				    (setq-local indent-tabs-mode nil)
-				    (setq css-indent-offset 2)))))
+  #+begin_src emacs-lisp
+    (use-package scss-mode
+      :ensure t
+      :mode ("\\.scss\\''" "\\.sass\\''")
+      :hook (scss-mode . (lambda () (progn
+				      (setq-local indent-tabs-mode nil)
+				      (setq css-indent-offset 2)))))
+  #+end_src
 
 * sass-mode
-#+BEGIN_SRC emacs-lisp
-  (use-package sass-mode
-    :ensure t
-    :mode ("\\.sass\\'"))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package sass-mode
+      :ensure t
+      :mode ("\\.sass\\'"))
+  #+end_src
 
 * json-mode
-#+BEGIN_SRC emacs-lisp
-  (use-package json-mode
-    :ensure t
-    :mode ("\\.json\\'")
-    :hook (json-mode . (lambda () (progn
-				    (setq-local indent-tabs-mode t)
-				    (setq-local js-indent-level 8)))))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package json-mode
+      :ensure t
+      :mode ("\\.json\\'")
+      :hook (json-mode . (lambda () (progn
+				      (setq-local indent-tabs-mode t)
+				      (setq-local js-indent-level 8)))))
+  #+end_src
 
 * yaml-mode
-#+BEGIN_SRC emacs-lisp
-  (use-package yaml-mode
-    :ensure t
-    :mode ("\\.yml\\'"))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package yaml-mode
+      :ensure t
+      :mode ("\\.yml\\'"))
+  #+end_src
+
 
 
 
@@ -413,87 +413,87 @@ Need to sort this out properly.
 #+end_src
 
 * multiple-cursors
-I've added advice to make it work more like how I think it should work - mark-next and mark-previous do not move the cursor to the next and previous word by default.
+  I've added advice to make it work more like how I think it should work - mark-next and mark-previous do not move the cursor to the next and previous word by default.
 
-*Issues* mark-next and mark-previous only move the cursor to the next or previous multi cursor - so if your cursor is in the middle it won't jump to the new selection.
-Need a cycle to end function (or actually a cycle to new cursor function would make more sense)
+  *Issues* mark-next and mark-previous only move the cursor to the next or previous multi cursor - so if your cursor is in the middle it won't jump to the new selection.
+  Need a cycle to end function (or actually a cycle to new cursor function would make more sense)
 
-#+BEGIN_SRC emacs-lisp
-  (defun advice-mc/cycle-forward (&optional arg)
-    "A version of mc/cycle-forward to use in advice mc/mark- commands"
-    (if
-	(or
-	 (mc/next-fake-cursor-after-point)
-	 (mc/first-fake-cursor-after (point-min)))
-	(mc/cycle-forward)
-      (deactivate-mark)))
-  (defun advice-mc/cycle-backward (&optional arg)
-    "A version of mc/cycle-backward to use in advice mc/mark- commands"
-    (if
-	(or
-	 (mc/prev-fake-cursor-before-point)
-	 (mc/last-fake-cursor-before (point-max)))
-	(mc/cycle-backward)
-      (deactivate-mark)))
+  #+begin_src emacs-lisp
+    (defun advice-mc/cycle-forward (&optional arg)
+      "A version of mc/cycle-forward to use in advice mc/mark- commands"
+      (if
+	  (or
+	   (mc/next-fake-cursor-after-point)
+	   (mc/first-fake-cursor-after (point-min)))
+	  (mc/cycle-forward)
+	(deactivate-mark)))
+    (defun advice-mc/cycle-backward (&optional arg)
+      "A version of mc/cycle-backward to use in advice mc/mark- commands"
+      (if
+	  (or
+	   (mc/prev-fake-cursor-before-point)
+	   (mc/last-fake-cursor-before (point-max)))
+	  (mc/cycle-backward)
+	(deactivate-mark)))
 
-  (use-package multiple-cursors
-    :ensure t
-    :bind (("C-." . 'mc/mark-next-like-this-word)
-	   ("C-," . 'mc/mark-previous-like-this-word)
-	   ("C->" . 'mc/unmark-next-like-this)
-	   ("C-<" . 'mc/unmark-previous-like-this))
-    :config
-    (progn
-      ;; unbind RET from quitting multicursors
-      (define-key mc/keymap (kbd "<return>") nil)
-      ;; move some keybindings around
-      (define-key mc/keymap (kbd "C-'") nil)
-      (define-key mc/keymap (kbd "C-M-'") 'mc-hide-unmatched-lines-mode)
-      (define-key mc/keymap (kbd "C-v") nil)
-      (define-key mc/keymap (kbd "M-v") nil)
-      ;; advice for cycling after marking
-      (advice-add 'mc/mark-next-like-this-word :after 'advice-mc/cycle-forward)
-      (advice-add 'mc/mark-previous-like-this-word :after 'advice-mc/cycle-backward)
-      (advice-add 'mc/unmark-next-like-this :before 'advice-mc/cycle-backward)
-      (advice-add 'mc/unmark-previous-like-this :before 'advice-mc/cycle-forward)))
-#+END_SRC
+    (use-package multiple-cursors
+      :ensure t
+      :bind (("C-." . 'mc/mark-next-like-this-word)
+	     ("C-," . 'mc/mark-previous-like-this-word)
+	     ("C->" . 'mc/unmark-next-like-this)
+	     ("C-<" . 'mc/unmark-previous-like-this))
+      :config
+      (progn
+	;; unbind RET from quitting multicursors
+	(define-key mc/keymap (kbd "<return>") nil)
+	;; move some keybindings around
+	(define-key mc/keymap (kbd "C-'") nil)
+	(define-key mc/keymap (kbd "C-M-'") 'mc-hide-unmatched-lines-mode)
+	(define-key mc/keymap (kbd "C-v") nil)
+	(define-key mc/keymap (kbd "M-v") nil)
+	;; advice for cycling after marking
+	(advice-add 'mc/mark-next-like-this-word :after 'advice-mc/cycle-forward)
+	(advice-add 'mc/mark-previous-like-this-word :after 'advice-mc/cycle-backward)
+	(advice-add 'mc/unmark-next-like-this :before 'advice-mc/cycle-backward)
+	(advice-add 'mc/unmark-previous-like-this :before 'advice-mc/cycle-forward)))
+  #+end_src
 
 * flycheck
 ** main
    Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html][this post]] to get flycheck using the local eslint.
-#+BEGIN_SRC emacs-lisp
-  (defun set-eslint ()
-    (let ((eslint (my/recursive-locate-file "node_modules" '(".bin" "eslint"))))
-      (when eslint
-	(setq-local flycheck-javascript-eslint-executable eslint))))
+   #+begin_src emacs-lisp
+     (defun set-eslint ()
+       (let ((eslint (my/recursive-locate-file "node_modules" '(".bin" "eslint"))))
+	 (when eslint
+	   (setq-local flycheck-javascript-eslint-executable eslint))))
 
-  (use-package flycheck
-    :ensure t
-    :init (global-flycheck-mode)
-    :config
-    (progn
-      (setq-default flycheck-temp-prefix ".flycheck")
-      (flycheck-add-mode 'javascript-eslint 'web-mode)
-      (add-hook 'web-mode-hook (lambda ()
-				 (unless (member 'javascript-jshint flycheck-disabled-checkers)
-				   (setq-local flycheck-disabled-checkers
-					       (append flycheck-disabled-checkers '(javascript-jshint))))))
-      (add-hook 'emacs-lisp-mode-hook (lambda ()
-					(setq-local flycheck-disabled-checkers
-						    (append flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
-      (add-hook 'flycheck-mode-hook #'set-eslint)
-      (add-hook 'lsp-mode-hook (lambda ()
-				 (when (string-equal major-mode "web-mode")
-				   (progn
-				     (flycheck-add-mode 'javascript-eslint 'web-mode)
-				     (set-eslint)
-				     (lsp-ui-mode)
-				     (flycheck-add-next-checker 'lsp '(t . javascript-eslint))))))
-      ))
-#+END_SRC
+     (use-package flycheck
+       :ensure t
+       :init (global-flycheck-mode)
+       :config
+       (progn
+	 (setq-default flycheck-temp-prefix ".flycheck")
+	 (flycheck-add-mode 'javascript-eslint 'web-mode)
+	 (add-hook 'web-mode-hook (lambda ()
+				    (unless (member 'javascript-jshint flycheck-disabled-checkers)
+				      (setq-local flycheck-disabled-checkers
+						  (append flycheck-disabled-checkers '(javascript-jshint))))))
+	 (add-hook 'emacs-lisp-mode-hook (lambda ()
+					   (setq-local flycheck-disabled-checkers
+						       (append flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
+	 (add-hook 'flycheck-mode-hook #'set-eslint)
+	 (add-hook 'lsp-mode-hook (lambda ()
+				    (when (string-equal major-mode "web-mode")
+				      (progn
+					(flycheck-add-mode 'javascript-eslint 'web-mode)
+					(set-eslint)
+					(lsp-ui-mode)
+					(flycheck-add-next-checker 'lsp '(t . javascript-eslint))))))
+	 ))
+   #+end_src
 
 ** flycheck-flow
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defun set-flow ()
        (let ((flow (my/recursive-locate-file "node_modules" '(".bin" "flow"))))
 	 (when flow
@@ -507,84 +507,84 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
        (progn
 	 (flycheck-add-mode 'javascript-flow 'flow-minor-mode)
 	 (flycheck-add-next-checker 'javascript-flow 'javascript-eslint)))
-   #+END_SRC
+   #+end_src
 
 * try
-#+BEGIN_SRC emacs-lisp
-  (use-package try
-    :ensure t)
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package try
+      :ensure t)
+  #+end_src
 
 * which-key
-#+begin_src emacs-lisp
-  (use-package which-key
-    :ensure t
-    :pin melpa
-    :config
-    (which-key-mode))
-#+end_src
+  #+begin_src emacs-lisp
+    (use-package which-key
+      :ensure t
+      :pin melpa
+      :config
+      (which-key-mode))
+  #+end_src
 
 * undo-tree
-#+BEGIN_SRC emacs-lisp
-  (use-package undo-tree
-    :ensure t
-    :config
-    (global-undo-tree-mode))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package undo-tree
+      :ensure t
+      :config
+      (global-undo-tree-mode))
+  #+end_src
 
 * projectile
-#+BEGIN_SRC emacs-lisp
-  (use-package projectile
-    :ensure t
-    :bind ("C-c p" . 'projectile-command-map)
-    :config
-    (projectile-mode t)
-    (setq projectile-enable-caching t))
-  (use-package counsel-projectile
-    :ensure t
-    :after (counsel projectile)
-    :config
-    (counsel-projectile-mode t))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package projectile
+      :ensure t
+      :bind ("C-c p" . 'projectile-command-map)
+      :config
+      (projectile-mode t)
+      (setq projectile-enable-caching t))
+    (use-package counsel-projectile
+      :ensure t
+      :after (counsel projectile)
+      :config
+      (counsel-projectile-mode t))
+  #+end_src
 
 * magit
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :ensure t
-    :bind ("C-x g" . 'magit-status))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package magit
+      :ensure t
+      :bind ("C-x g" . 'magit-status))
+  #+end_src
 
 * expand-region
-#+BEGIN_SRC emacs-lisp
-  (use-package expand-region
-    :ensure t
-    :bind ("C-=" . er/expand-region))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package expand-region
+      :ensure t
+      :bind ("C-=" . er/expand-region))
+  #+end_src
 
 * avy
-#+BEGIN_SRC emacs-lisp
-  (use-package avy
-    :ensure t
-    :bind (("C-#" . avy-goto-char-in-line)
-           ("M-#" . avy-goto-word-1)))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package avy
+      :ensure t
+      :bind (("C-#" . avy-goto-char-in-line)
+	     ("M-#" . avy-goto-word-1)))
+  #+end_src
 
 * web-beautify
-#+BEGIN_SRC emacs-lisp
-  (use-package web-beautify
-    :ensure t)
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package web-beautify
+      :ensure t)
+  #+end_src
 
 * company
-#+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :config
-    (progn
-      (add-hook 'after-init-hook 'global-company-mode)
-      (setq company-dabbrev-downcase nil)
-      (setq company-dabbrev-ignore-case nil)))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package company
+      :ensure t
+      :config
+      (progn
+	(add-hook 'after-init-hook 'global-company-mode)
+	(setq company-dabbrev-downcase nil)
+	(setq company-dabbrev-ignore-case nil)))
+  #+end_src
 
 * window-jump
   For easy window switching.
@@ -592,56 +592,56 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
   I don't really like these bindings because I have to move my hand to the arrow keys and back.
   The problem is I don't want it in a keymap either, and the (n p f b) keys already have modifier bindings
   (super is reserved for global (non-emacs) shortcuts)
-#+begin_src emacs-lisp
-  (use-package window-jump
-    :ensure t
-    :bind (("M-<right>" . window-jump-right)
-	   ("M-<left>" . window-jump-left)
-	   ("M-<up>" . window-jump-up)
-	   ("M-<down>" . window-jump-down)))
-#+end_src
+  #+begin_src emacs-lisp
+    (use-package window-jump
+      :ensure t
+      :bind (("M-<right>" . window-jump-right)
+	     ("M-<left>" . window-jump-left)
+	     ("M-<up>" . window-jump-up)
+	     ("M-<down>" . window-jump-down)))
+  #+end_src
 
 * git-timemachine
-#+BEGIN_SRC emacs-lisp
-  (use-package git-timemachine
-    :ensure t)
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package git-timemachine
+      :ensure t)
+  #+end_src
 
 * rotate
-#+BEGIN_SRC emacs-lisp
-  (use-package rotate
-    :ensure t
-    :bind (("C-c C-o" . rotate-window)
-	   ("C-c C-p" . rotate-layout)))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package rotate
+      :ensure t
+      :bind (("C-c C-o" . rotate-window)
+	     ("C-c C-p" . rotate-layout)))
+  #+end_src
 
 * telephone-line
   Customising the mode-line so it looks nice and is easier to read.
   The customisations to telephone-line are just to put the buffer name as the first thing on the left,
   otherwise it gets hard to read when lots of windows are open.
 
-#+BEGIN_SRC emacs-lisp
-  (use-package telephone-line
-    :ensure t
-    :config (progn
-	      (defface my/telephone-line-blue '((t (:foreground "white" :background "MidnightBlue"))) "")
-	      (add-to-list 'telephone-line-faces '(blue . (my/telephone-line-blue . my/telephone-line-blue)))
-	      (setq telephone-line-lhs
-		    '((blue . (telephone-line-buffer-name-segment))
-		      (accent . (telephone-line-buffer-modified-segment
-				 telephone-line-projectile-segment))
-		      (nil   . (telephone-line-vc-segment
-				telephone-line-erc-modified-channels-segment
-				telephone-line-process-segment))))
-	      (telephone-line-mode 1)))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package telephone-line
+      :ensure t
+      :config (progn
+		(defface my/telephone-line-blue '((t (:foreground "white" :background "MidnightBlue"))) "")
+		(add-to-list 'telephone-line-faces '(blue . (my/telephone-line-blue . my/telephone-line-blue)))
+		(setq telephone-line-lhs
+		      '((blue . (telephone-line-buffer-name-segment))
+			(accent . (telephone-line-buffer-modified-segment
+				   telephone-line-projectile-segment))
+			(nil   . (telephone-line-vc-segment
+				  telephone-line-erc-modified-channels-segment
+				  telephone-line-process-segment))))
+		(telephone-line-mode 1)))
+  #+end_src
 
 * flow
-#+BEGIN_SRC emacs-lisp
-  (use-package flow-minor-mode
-    :ensure t
-    :hook (web-mode . flow-minor-enable-automatically))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (use-package flow-minor-mode
+      :ensure t
+      :hook (web-mode . flow-minor-enable-automatically))
+  #+end_src
 
 * emojis / emojify
   When emacs is compiled with cairo support, then it can support a proper emoji font (I don't know if there's
@@ -653,91 +653,91 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
   then emacs will crash if it doesn't have emoji support 😑
 
   Should look into windows support of actual emojis at some point.
-#+BEGIN_SRC emacs-lisp
-  (if (and (boundp 'cairo-version-string)
-	   (find-font (font-spec :name "Noto Color Emoji")))
-      (set-fontset-font "fontset-default" 'unicode "Noto Color Emoji")
-    (use-package emojify
-      :ensure t
-      :config
-      (global-emojify-mode)
-      (setq emojify-emoji-styles '(unicode github))))
-#+END_SRC
+  #+begin_src emacs-lisp
+    (if (and (boundp 'cairo-version-string)
+	     (find-font (font-spec :name "Noto Color Emoji")))
+	(set-fontset-font "fontset-default" 'unicode "Noto Color Emoji")
+      (use-package emojify
+	:ensure t
+	:config
+	(global-emojify-mode)
+	(setq emojify-emoji-styles '(unicode github))))
+  #+end_src
 
 * treemacs
-#+begin_src emacs-lisp
-  (use-package treemacs
-    :ensure t
-    :demand t ;; so that treemacs-icons-dired can load without having to open treemacs
-    :config
-    (progn
-      (setq treemacs-deferred-git-apply-delay      0.5
-	    treemacs-follow-after-init             t
-	    treemacs-show-cursor                   t ;; otherwise can't see cursor when e.g. renaming a file
-	    ;; treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
-	    ;; treemacs-directory-name-transformer    #'identity
-	    ;; treemacs-display-in-side-window        t
-	    ;; treemacs-eldoc-display                 t
-	    ;; treemacs-file-event-delay              5000
-	    ;; treemacs-file-extension-regex          treemacs-last-period-regex-value
-	    ;; treemacs-file-follow-delay             0.2
-	    ;; treemacs-file-name-transformer         #'identity
-	    ;; treemacs-git-command-pipe              ""
-	    ;; treemacs-goto-tag-strategy             'refetch-index
-	    ;; treemacs-indentation                   2
-	    ;; treemacs-indentation-string            " "
-	    ;; treemacs-is-never-other-window         nil
-	    ;; treemacs-max-git-entries               5000
-	    ;; treemacs-missing-project-action        'ask
-	    ;; treemacs-move-forward-on-expand        nil
-	    ;; treemacs-no-png-images                 nil
-	    ;; treemacs-no-delete-other-windows       t
-	    ;; treemacs-project-follow-cleanup        nil
-	    ;; treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-	    ;; treemacs-position                      'left
-	    ;; treemacs-recenter-distance             0.1
-	    ;; treemacs-recenter-after-file-follow    nil
-	    ;; treemacs-recenter-after-tag-follow     nil
-	    ;; treemacs-recenter-after-project-jump   'always
-	    ;; treemacs-recenter-after-project-expand 'on-distance
-	    ;; treemacs-show-hidden-files             t
-	    ;; treemacs-silent-filewatch              nil
-	    ;; treemacs-silent-refresh                nil
-	    ;; treemacs-sorting                       'alphabetic-asc
-	    ;; treemacs-space-between-root-nodes      t
-	    ;; treemacs-tag-follow-cleanup            t
-	    ;; treemacs-tag-follow-delay              1.5
-	    ;; treemacs-user-mode-line-format         nil
-	    ;; treemacs-user-header-line-format       nil
-	    ;; treemacs-width                         35
-	    ;; treemacs-workspace-switch-cleanup      nil
-	    )
-      (treemacs-follow-mode t)
-      (treemacs-filewatch-mode t)
-      (treemacs-fringe-indicator-mode t)
-      (treemacs-git-mode 'deferred))
-    :bind (("<f8>" . treemacs-select-window)))
-#+end_src
+  #+begin_src emacs-lisp
+    (use-package treemacs
+      :ensure t
+      :demand t ;; so that treemacs-icons-dired can load without having to open treemacs
+      :config
+      (progn
+	(setq treemacs-deferred-git-apply-delay      0.5
+	      treemacs-follow-after-init             t
+	      treemacs-show-cursor                   t ;; otherwise can't see cursor when e.g. renaming a file
+	      ;; treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+	      ;; treemacs-directory-name-transformer    #'identity
+	      ;; treemacs-display-in-side-window        t
+	      ;; treemacs-eldoc-display                 t
+	      ;; treemacs-file-event-delay              5000
+	      ;; treemacs-file-extension-regex          treemacs-last-period-regex-value
+	      ;; treemacs-file-follow-delay             0.2
+	      ;; treemacs-file-name-transformer         #'identity
+	      ;; treemacs-git-command-pipe              ""
+	      ;; treemacs-goto-tag-strategy             'refetch-index
+	      ;; treemacs-indentation                   2
+	      ;; treemacs-indentation-string            " "
+	      ;; treemacs-is-never-other-window         nil
+	      ;; treemacs-max-git-entries               5000
+	      ;; treemacs-missing-project-action        'ask
+	      ;; treemacs-move-forward-on-expand        nil
+	      ;; treemacs-no-png-images                 nil
+	      ;; treemacs-no-delete-other-windows       t
+	      ;; treemacs-project-follow-cleanup        nil
+	      ;; treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+	      ;; treemacs-position                      'left
+	      ;; treemacs-recenter-distance             0.1
+	      ;; treemacs-recenter-after-file-follow    nil
+	      ;; treemacs-recenter-after-tag-follow     nil
+	      ;; treemacs-recenter-after-project-jump   'always
+	      ;; treemacs-recenter-after-project-expand 'on-distance
+	      ;; treemacs-show-hidden-files             t
+	      ;; treemacs-silent-filewatch              nil
+	      ;; treemacs-silent-refresh                nil
+	      ;; treemacs-sorting                       'alphabetic-asc
+	      ;; treemacs-space-between-root-nodes      t
+	      ;; treemacs-tag-follow-cleanup            t
+	      ;; treemacs-tag-follow-delay              1.5
+	      ;; treemacs-user-mode-line-format         nil
+	      ;; treemacs-user-header-line-format       nil
+	      ;; treemacs-width                         35
+	      ;; treemacs-workspace-switch-cleanup      nil
+	      )
+	(treemacs-follow-mode t)
+	(treemacs-filewatch-mode t)
+	(treemacs-fringe-indicator-mode t)
+	(treemacs-git-mode 'deferred))
+      :bind (("<f8>" . treemacs-select-window)))
+  #+end_src
 
 ** treemacs-projectile
-#+begin_src emacs-lisp
-  (use-package treemacs-projectile
-    :after (treemacs projectile)
-    :ensure t)
-#+end_src
+   #+begin_src emacs-lisp
+     (use-package treemacs-projectile
+       :after (treemacs projectile)
+       :ensure t)
+   #+end_src
 
 ** treemacs-icons-dired
-#+begin_src emacs-lisp
-  (use-package treemacs-icons-dired
-    :after (treemacs dired)
-    :ensure t
-    :config (treemacs-icons-dired-mode))
-#+end_src
+   #+begin_src emacs-lisp
+     (use-package treemacs-icons-dired
+       :after (treemacs dired)
+       :ensure t
+       :config (treemacs-icons-dired-mode))
+   #+end_src
 
 ** treemacs-magit
-#+begin_src emacs-lisp
-  (use-package treemacs-magit
-    :after (treemacs magit)
-    :ensure t)
-#+end_src
+   #+begin_src emacs-lisp
+     (use-package treemacs-magit
+       :after (treemacs magit)
+       :ensure t)
+   #+end_src
 
