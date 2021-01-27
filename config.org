@@ -251,6 +251,15 @@
 	      (shell-command (concat "npx prettier --write " buffer-file-name))))
    #+end_src
 
+** my/eslint-fix
+   Runs =eslint --fix= on the current file if it's available.
+   #+begin_src emacs-lisp
+     (defun my/eslint-fix () "" (interactive)
+	    (when (my/recursive-locate-file "node_modules" '(".bin" "eslint"))
+	      (let ((default-directory (projectile-project-root)))
+		(shell-command (concat "npx eslint --fix " buffer-file-name)))))
+   #+end_src
+
 
 * lsp-mode
   Somewhat of a rush job right now, but it works 😅
