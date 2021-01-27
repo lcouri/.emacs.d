@@ -243,6 +243,14 @@
 		(my/recursive-locate-file folder file par-dir)))))
    #+end_src
 
+** my/prettier
+   Runs prettier on the current file if it's available.
+   #+begin_src emacs-lisp
+     (defun my/prettier () "" (interactive)
+	    (when (my/recursive-locate-file "node_modules" '(".bin" "prettier"))
+	      (shell-command (concat "npx prettier --write " buffer-file-name))))
+   #+end_src
+
 
 * lsp-mode
   Somewhat of a rush job right now, but it works 😅
