@@ -456,11 +456,12 @@
 	     ("C-x 5 b" . consult-buffer-other-frame)
 	     ("M-g M-g" . consult-goto-line)
 	     ("M-s ." . (lambda () (interactive) (consult-line (thing-at-point 'symbol))))
-	     ("M-s s" . (lambda () (interactive) (consult-git-grep (projectile-project-root))))
+	     ("M-s s" . consult-git-grep)
 	     ("M-y" . consult-yank-pop))
       :config (progn
 		(setq consult-git-grep-command
-		      "git --no-pager grep --null --color=always --extended-regexp --line-number -I -i -e ARG OPTS")))
+		      "git --no-pager grep --null --color=always --extended-regexp --line-number -I -i -e ARG OPTS")
+		(setq consult-project-root-function (lambda () (cdr (project-current))))))
   #+end_src
 
 ** consult-selectrum
