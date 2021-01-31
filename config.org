@@ -205,6 +205,12 @@
      (minibuffer-depth-indicate-mode t)
     #+end_src
 
+** suppress comp warnings
+   Comp warnings come up all the time in the gccemacs branch.
+   #+begin_src emacs-lisp
+     (setq warning-suppress-types '((comp)))
+   #+end_src
+
 * My key bindings
   #+begin_src emacs-lisp
     (global-set-key (kbd "RET") 'newline-and-indent)
