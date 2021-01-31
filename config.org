@@ -198,6 +198,13 @@
      (ad-activate 'ibuffer-other-window)
    #+end_src
 
+** recursive minibuffers
+   This fixes an issue with calling =woman= and some magit commands while using selectrum (or consult?).
+   #+begin_src emacs-lisp
+     (setq enable-recursive-minibuffers t)
+     (minibuffer-depth-indicate-mode t)
+    #+end_src
+
 * My key bindings
   #+begin_src emacs-lisp
     (global-set-key (kbd "RET") 'newline-and-indent)
@@ -291,13 +298,6 @@
        :ensure t
       :after lsp-mode)
    #+end_src
-** lsp-ivy
-   #+begin_src emacs-lisp
-     (use-package lsp-ivy
-       :ensure t
-       :after lsp-mode
-       :commands lsp-ivy-workspace-symbol)
-   #+end_src
 
 * emacs-lisp-mode
   #+begin_src emacs-lisp
@@ -384,50 +384,112 @@
 
 
 
-* swiper + counsel + ivy
-The commented out swiper config was taken from [[https://github.com/abo-abo/swiper][Swiper github]].
-Need to sort this out properly.
-#+begin_src emacs-lisp
-  (use-package counsel
-    :ensure t)
-  (use-package ivy
-    :ensure t
-    :diminish (ivy-mode)
-    :bind (("C-x b" . ivy-switch-buffer))
-    :config
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffer t)
-    (setq ivy-display-style 'fancy))
-  (use-package swiper
-    :ensure t
-    :after (counsel ivy)
-    :bind (("C-s" . swiper)
-           ("C-r" . swiper)
-           ("C-c C-r" . ivy-resume)
-           ("M-x" . counsel-M-x)
-           ("C-x C-f" . counsel-find-file)
-           ("M-s s" . counsel-git-grep)
-	   ("M-s ." . swiper-thing-at-point))
-    :config
-    (progn
-      (ivy-mode 1)
-      (setq ivy-use-virtual-buffers t)
-      (setq enable-recursive-minibuffers t)
-      ;;(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-      ;;(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-      ;;(global-set-key (kbd "<f1> l") 'counsel-find-library)
-      ;;(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-      ;;(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-      ;;(global-set-key (kbd "C-c g") 'counsel-git)
-      ;;(global-set-key (kbd "C-c k") 'counsel-ag)
-      ;;(global-set-key (kbd "C-x l") 'counsel-locate)
-      ;;(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-      ;;(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-      (setq ivy-display-style 'fancy)
-      (define-key read-expression-map (kbd "C-r") 'councel-expression-history)
-      (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
-      (setq ivy-use-selectable-prompt t)))
-#+end_src
+* selectrum
+  A nice, simple interface for selecting an item from a list. I believe it's made to work with the existing
+  Emacs APIs for completion, which means it should work better with other packages.
+  =selectrum-repeat= brings up the last selectrum use - handy for continuing a search, or doing the last =M-x=
+  command again.
+  #+begin_src emacs-lisp
+    (use-package selectrum
+      :ensure t
+      :init (selectrum-mode +1)
+      :bind ("C-c r" . 'selectrum-repeat))
+  #+end_src
+
+* prescient
+  Sorting and filtering candidates in lists; specifically for selectrum in this case, but in theory if I wanted
+  to swap out selectrum it should be possible.
+  Mostly I use it for the regex filter - I prefer that to fuzzy search. It also sorts by most used, I think,
+  which is also handy.
+  Remember the keybinding for the toggle map is =M-s= and the toggles are:
+  | r | regex      |
+  | p | prefix     |
+  | l | literal    |
+  | i | initialism |
+  | f | fuzzy      |
+  | a | anchored   |
+  ^Just putting that here because it's a bit annoying to find the toggle map button, and which-key cuts off the
+  important part of the toggle function names.
+  #+begin_src emacs-lisp
+    (use-package selectrum-prescient
+      :ensure t
+      :after selectrum
+      :config (progn (prescient-persist-mode t)
+		     (selectrum-prescient-mode t)
+		     (setq prescient-filter-method '(regexp))))
+  #+end_src
+
+* marginalia
+  Extra information in the minibuffer. It should be possible to cycle between more (heavy) and less (light)
+  annotations, but I like always having more so I've not bound marginalia-cycle to anything. It is sometimes
+  a bit unclear what the columns are though.
+  #+begin_src emacs-lisp
+    (use-package marginalia
+      :ensure t
+      :init (marginalia-mode)
+      :config (setq marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light)))
+  #+end_src
+
+* consult
+  A bunch of useful commands and enhancements to existing commands. I find it most handy for buffer search with
+  =consult-line= and the live updating =git-grep=. I know a lot of people prefer =ripgrep=, but I haven't found
+  it to be that much faster so far (maybe I just need bigger projects), and besides I'm pretty sure it's the
+  emacs side that's the bottleneck anyway.
+  I've been having some annoyance at the unstable api for =consult-git-grep=, but it seems to work ok now and
+  hopefully I don't have to deal with it too much again.
+  I've set =consult-git-grep-command= to add the =-i= option, so that it's case insensitive. I'd like to make a
+  function that toggles case sensitivity at some point.
+  Look into =consult-preview-key= to toggle preview mode (can be done per command).
+  #+begin_src emacs-lisp
+    (use-package consult
+      :ensure t
+      :bind (("C-s" . consult-line)
+	     ("C-x b" . consult-buffer)
+	     ("C-x 4 b" . consult-buffer-other-window)
+	     ("C-x 5 b" . consult-buffer-other-frame)
+	     ("M-g M-g" . consult-goto-line)
+	     ("M-s ." . (lambda () (interactive) (consult-line (thing-at-point 'symbol))))
+	     ("M-s s" . (lambda () (interactive) (consult-git-grep (projectile-project-root))))
+	     ("M-y" . consult-yank-pop))
+      :config (progn
+		(setq consult-git-grep-command
+		      "git --no-pager grep --null --color=always --extended-regexp --line-number -I -i -e ARG OPTS")))
+  #+end_src
+
+** consult-selectrum
+   Integration with selectrum
+   #+begin_src emacs-lisp
+     (use-package consult-selectrum
+       :ensure t
+       :demand t)
+   #+end_src
+
+** consult-flycheck
+   For searching through flycheck errors
+   #+begin_src emacs-lisp
+     (use-package consult-flycheck
+       :ensure t
+       :after flycheck
+       :bind (:map flycheck-command-map
+		   ("!" . consult-flycheck)))
+   #+end_src
+
+* embark
+  Actions on targets, whether it's the thing at point or the currently selected candidate in selectrum. Note
+  that the currently selected candidate means you have to =tab= complete - it's not the currently /highlighted/
+  candidate.
+  The config integrates it with which-key.
+  #+begin_src emacs-lisp
+    (use-package embark
+      :ensure t
+      :bind ("C-c o" . embark-act)
+      :config (setq embark-action-indicator
+		    (lambda (map)
+		      (which-key--show-keymap "Embark" map nil nil 'no-paging)
+		      #'which-key--hide-popup-ignore-command)
+		    embark-become-indicator embark-action-indicator))
+  #+end_src
+
 
 * multiple-cursors
   I've added advice to make it work more like how I think it should work - mark-next and mark-previous do not move the cursor to the next and previous word by default.
@@ -557,11 +619,6 @@ Need to sort this out properly.
       :config
       (projectile-mode t)
       (setq projectile-enable-caching t))
-    (use-package counsel-projectile
-      :ensure t
-      :after (counsel projectile)
-      :config
-      (counsel-projectile-mode t))
   #+end_src
 
 * magit

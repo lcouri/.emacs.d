@@ -8,6 +8,7 @@ url/
 emojis/
 eln-cache/
 transient/
+var/
 .lsp-session*
 .org-id-locations
 *.elc
