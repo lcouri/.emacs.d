@@ -306,11 +306,6 @@
        :config (setq lsp-ui-sideline-diagnostic-max-lines 25))
    #+end_src
 
-* emacs-lisp-mode
-  #+begin_src emacs-lisp
-    (add-hook 'emacs-lisp-mode-hook (lambda () (setq-local indent-tabs-mode nil)))
-  #+end_src
-
 * org-mode
 ** Installation
    Use the latest org-mode package from the org archives.
