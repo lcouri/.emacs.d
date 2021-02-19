@@ -8,7 +8,9 @@
 	c-electric-paren
 	c-electric-semi&comma
 	c-indent-line-or-region
+	capitalize-dwim
 	delete-horizontal-space
+	downcase-dwim
 	downcase-region
 	electric-pair-delete-pair
 	eshell-pcomplete
