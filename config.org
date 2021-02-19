@@ -198,6 +198,11 @@
      (ad-activate 'ibuffer-other-window)
    #+end_src
 
+** display fill column
+   #+begin_src emacs-lisp
+     (add-hook 'prog-mode-hook (lambda () (display-fill-column-indicator-mode)))
+   #+end_src
+
 ** recursive minibuffers
    This fixes an issue with calling =woman= and some magit commands while using selectrum (or consult?).
    #+begin_src emacs-lisp
