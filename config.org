@@ -274,7 +274,7 @@
    #+begin_src emacs-lisp
      (defun my/eslint-fix () "" (interactive)
 	    (when (my/recursive-locate-file "node_modules" '(".bin" "eslint"))
-	      (let ((default-directory (projectile-project-root)))
+	      (let ((default-directory (cdr (project-current))))
 		(shell-command (concat "npx eslint --fix " buffer-file-name)))))
    #+end_src
 
