@@ -396,9 +396,11 @@
   Emacs APIs for completion, which means it should work better with other packages.
   =selectrum-repeat= brings up the last selectrum use - handy for continuing a search, or doing the last =M-x=
   command again.
+  Using melpa-stable version since it keeps breaking for me.
   #+begin_src emacs-lisp
     (use-package selectrum
       :ensure t
+      :pin melpa-stable
       :init (selectrum-mode +1)
       :bind ("C-c r" . 'selectrum-repeat))
   #+end_src
@@ -417,9 +419,11 @@
   | a | anchored   |
   ^Just putting that here because it's a bit annoying to find the toggle map button, and which-key cuts off the
   important part of the toggle function names.
+  Using melpa-stable version because this has broken a few times for me recently.
   #+begin_src emacs-lisp
     (use-package selectrum-prescient
       :ensure t
+      :pin melpa-stable
       :after selectrum
       :config (progn (prescient-persist-mode t)
 		     (selectrum-prescient-mode t)
@@ -447,9 +451,11 @@
   I've set =consult-git-grep-command= to add the =-i= option, so that it's case insensitive. I'd like to make a
   function that toggles case sensitivity at some point.
   Look into =consult-preview-key= to toggle preview mode (can be done per command).
+  Using melpa-stable version because, while I'm not sure if this actually broke recently, I really don't  want it to.
   #+begin_src emacs-lisp
     (use-package consult
       :ensure t
+      :pin melpa-stable
       :bind (("C-s" . consult-line)
 	     ("C-x b" . consult-buffer)
 	     ("C-x 4 b" . consult-buffer-other-window)
