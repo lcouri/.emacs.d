@@ -464,14 +464,6 @@
 		(setq consult-project-root-function (lambda () (cdr (project-current))))))
   #+end_src
 
-** consult-selectrum
-   Integration with selectrum
-   #+begin_src emacs-lisp
-     (use-package consult-selectrum
-       :ensure t
-       :demand t)
-   #+end_src
-
 ** consult-flycheck
    For searching through flycheck errors
    #+begin_src emacs-lisp
