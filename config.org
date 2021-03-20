@@ -402,7 +402,13 @@
       :ensure t
       :pin melpa-stable
       :init (selectrum-mode +1)
-      :bind ("C-c r" . 'selectrum-repeat))
+      :bind ("C-c r" . 'selectrum-repeat)
+      :config
+      (progn
+	;; it's really annoying to have candidates out of order, especially for something like consult-line
+	(setq-default selectrum-move-default-candidate nil)
+	;; I prefer the height to be fixed rather than expanding while I'm scrolling
+	(setq selectrum-fix-vertical-window-height t)))
   #+end_src
 
 * prescient
