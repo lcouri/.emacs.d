@@ -674,6 +674,15 @@
 	(setq company-dabbrev-ignore-case nil)))
   #+end_src
 
+** company-emoji
+   Makes it easier to insert emojis 😁
+   #+begin_src emacs-lisp
+     (use-package company-emoji
+       :ensure t
+       :after company
+       :config (add-to-list 'company-backends 'company-emoji))
+   #+end_src
+
 * window-jump
   For easy window switching.
 
