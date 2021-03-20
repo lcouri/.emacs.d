@@ -481,6 +481,7 @@
    #+begin_src emacs-lisp
      (use-package consult-flycheck
        :ensure t
+       :pin melpa-stable
        :after flycheck
        :bind (:map flycheck-command-map
 		   ("!" . consult-flycheck)))
