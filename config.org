@@ -8,19 +8,35 @@
   #+end_src
 
 * Themes
-** Doom-monokai-classic (current theme)
-   #+BEGIN_SRC emacs-lisp
+** doom-monokai-classic
+   #+begin_src emacs-lisp
      (use-package doom-themes
+       :disabled
        :ensure t
        :config
        (progn (load-theme 'doom-monokai-classic t)
 	      (custom-theme-set-faces
 	       'doom-monokai-classic
 	       '(font-lock-variable-name-face ((t (:foreground "#fd971f"))))
-	       '(ivy-current-match ((t (:background "#525254")))) ;; would like this a bit lighter so I can actually see it
 	       '(default ((t :background "#000000"))))
 	      (enable-theme 'doom-monokai-classic)))
-   #+END_SRC
+   #+end_src
+
+** modus-vivendi (current theme)
+   #+begin_src emacs-lisp
+     (defun my/load-modus-vivendi-theme () ""
+	    (progn (load-theme 'modus-vivendi t)
+	      (custom-theme-set-faces 'modus-vivendi
+				      '(whitespace-space ((t (:background unspecified :foreground "#484848"))))
+				      '(whitespace-tab ((t (:background unspecified :foreground "#484848")))))
+	      (enable-theme 'modus-vivendi)))
+
+     (if (version< emacs-version "28")
+	 (use-package modus-vivendi-theme
+	   :ensure t
+	   :config (my/load-modus-vivendi-theme))
+       (my/load-modus-vivendi-theme))
+   #+end_src
 
 * Defaults
 ** disable bell
