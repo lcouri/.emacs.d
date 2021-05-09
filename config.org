@@ -859,3 +859,24 @@
       :ensure t)
   #+end_src
 
+* zoom
+  #+begin_src emacs-lisp
+    (use-package zoom
+      :ensure t
+      :config
+      (zoom-mode 1))
+  #+end_src
+
+  A hack to stop which-key taking up half the screen. Right now it keeps the which-key window at a
+  fixed height where it should have a max height, so it's not perfect but I haven't found any other
+  ways of stopping zoom from resizing it yet.
+  #+begin_src emacs-lisp
+    (defun my/advice-which-key (&optional arg) ""
+      (with-selected-window (get-buffer-window which-key-buffer-name)
+	  (progn
+	    (setq window-size-fixed nil)
+	    (window-resize (selected-window) (- 13 (window-total-height)))
+	    (setq window-size-fixed t))))
+
+    (advice-add 'which-key--show-popup :after 'my/advice-which-key)
+  #+end_src
