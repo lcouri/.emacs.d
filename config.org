@@ -32,7 +32,7 @@
 	      (enable-theme 'modus-vivendi)))
 
      (if (version< emacs-version "28")
-	 (use-package modus-vivendi-theme
+	 (use-package modus-themes
 	   :ensure t
 	   :config (my/load-modus-vivendi-theme))
        (my/load-modus-vivendi-theme))
@@ -628,7 +628,6 @@
   #+begin_src emacs-lisp
     (use-package which-key
       :ensure t
-      :pin melpa
       :config
       (which-key-mode))
   #+end_src
