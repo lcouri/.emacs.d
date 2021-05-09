@@ -28,7 +28,8 @@
 	    (progn (load-theme 'modus-vivendi t)
 	      (custom-theme-set-faces 'modus-vivendi
 				      '(whitespace-space ((t (:background unspecified :foreground "#484848"))))
-				      '(whitespace-tab ((t (:background unspecified :foreground "#484848")))))
+				      '(whitespace-tab ((t (:background unspecified :foreground "#484848"))))
+				      '(web-mode-keyword-face ((t (:inherit 'font-lock-keyword-face)))))
 	      (enable-theme 'modus-vivendi)))
 
      (if (version< emacs-version "28")
