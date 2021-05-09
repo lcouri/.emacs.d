@@ -491,7 +491,11 @@
       :config (progn
 		(setq consult-git-grep-command
 		      "git --no-pager grep --null --color=always --extended-regexp --line-number -I -i -e ARG OPTS")
-		(setq consult-project-root-function (lambda () (cdr (project-current))))))
+		(setq consult-project-root-function (lambda () (cdr (project-current))))
+		;; They changed the default behaviour from 0.6 -> 0.7 and added this variable to go back to the old behaviour.
+		;; Seriously annoying! Drove me crazy for an hour while at work, especially because I initially thought
+		;; it was selectrum since they had done something like this before.
+		(setq-default consult-line-start-from-top t)))
   #+end_src
 
 ** consult-flycheck
