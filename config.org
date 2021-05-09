@@ -853,3 +853,9 @@
        :ensure t)
    #+end_src
 
+* wgrep
+  #+begin_src emacs-lisp
+    (use-package wgrep
+      :ensure t)
+  #+end_src
+
