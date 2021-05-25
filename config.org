@@ -791,6 +791,7 @@
 	(setq treemacs-deferred-git-apply-delay      0.5
 	      treemacs-follow-after-init             t
 	      treemacs-show-cursor                   t ;; otherwise can't see cursor when e.g. renaming a file
+	      treemacs-width                         45
 	      ;; treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
 	      ;; treemacs-directory-name-transformer    #'identity
 	      ;; treemacs-display-in-side-window        t
@@ -826,7 +827,6 @@
 	      ;; treemacs-tag-follow-delay              1.5
 	      ;; treemacs-user-mode-line-format         nil
 	      ;; treemacs-user-header-line-format       nil
-	      ;; treemacs-width                         35
 	      ;; treemacs-workspace-switch-cleanup      nil
 	      )
 	(treemacs-follow-mode t)
