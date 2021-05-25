@@ -715,7 +715,11 @@
       :bind (("M-<right>" . window-jump-right)
 	     ("M-<left>" . window-jump-left)
 	     ("M-<up>" . window-jump-up)
-	     ("M-<down>" . window-jump-down)))
+	     ("M-<down>" . window-jump-down)
+	     ("M-L" . window-jump-right)
+	     ("M-J" . window-jump-left)
+	     ("M-I" . window-jump-up)
+	     ("M-K" . window-jump-down)))
   #+end_src
 
 * git-timemachine
@@ -833,7 +837,12 @@
 	(treemacs-filewatch-mode t)
 	(treemacs-fringe-indicator-mode t)
 	(treemacs-git-mode 'deferred))
-      :bind (("<f8>" . treemacs-select-window)))
+      :bind (("<f8>" . treemacs-select-window)
+	     ;; unbinding root move commands because I don't use them and
+	     ;; they interfere with my window-move command bindings
+	     (:map treemacs-mode-map
+		   ("M-L" . nil)
+		   ("M-H" . nil))))
   #+end_src
 
 ** treemacs-projectile
