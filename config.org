@@ -894,3 +894,10 @@
 
     (advice-add 'which-key--show-popup :after 'my/advice-which-key)
   #+end_src
+
+* rainbow-delimiters
+  #+begin_src emacs-lisp
+    (use-package rainbow-delimiters
+      :ensure t
+      :hook (prog-mode . rainbow-delimiters-mode))
+  #+end_src
