@@ -608,23 +608,6 @@
 	 ))
    #+end_src
 
-** flycheck-flow
-   #+begin_src emacs-lisp
-     (defun set-flow ()
-       (let ((flow (my/recursive-locate-file "node_modules" '(".bin" "flow"))))
-	 (when flow
-	   (setq-local flycheck-javascript-flow-executable flow))))
-
-     (use-package flycheck-flow
-       :ensure t
-       :after flycheck
-       :hook (flycheck-mode . set-flow)
-       :config
-       (progn
-	 (flycheck-add-mode 'javascript-flow 'flow-minor-mode)
-	 (flycheck-add-next-checker 'javascript-flow 'javascript-eslint)))
-   #+end_src
-
 * try
   #+begin_src emacs-lisp
     (use-package try
@@ -757,13 +740,6 @@
 				  telephone-line-erc-modified-channels-segment
 				  telephone-line-process-segment))))
 		(telephone-line-mode 1)))
-  #+end_src
-
-* flow
-  #+begin_src emacs-lisp
-    (use-package flow-minor-mode
-      :ensure t
-      :hook (web-mode . flow-minor-enable-automatically))
   #+end_src
 
 * emojis / emojify
