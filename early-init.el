@@ -1,3 +1,8 @@
+;; Increase gc threshold and read-process to improve lsp
+;; Note: I'm a bit unclear on if these are fine to have increased all the time - need to look into it more
+(setq gc-cons-threshold (* 1024 1024 50))
+(setq read-process-output-max (* 1024 1024))
+
 ;; Disable UI stuff immediately to avoid any display at all
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
