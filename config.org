@@ -598,13 +598,6 @@
 					   (setq-local flycheck-disabled-checkers
 						       (append flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
 	 (add-hook 'flycheck-mode-hook #'set-eslint)
-	 (add-hook 'lsp-mode-hook (lambda ()
-				    (when (string-equal major-mode "web-mode")
-				      (progn
-					(flycheck-add-mode 'javascript-eslint 'web-mode)
-					(set-eslint)
-					(lsp-ui-mode)
-					(flycheck-add-next-checker 'lsp '(t . javascript-eslint))))))
 	 ))
    #+end_src
 
