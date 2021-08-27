@@ -309,6 +309,7 @@
 			    (when (or (string= (file-name-extension buffer-file-name) "ts")
 				      (string= (file-name-extension buffer-file-name) "tsx"))
 			      (lsp-deferred))))
+	      (scala-mode . lsp-deferred)
 	      ;; if you want which-key integration
 	      (lsp-mode . lsp-enable-which-key-integration))
        :commands (lsp lsp-deferred)
@@ -328,6 +329,12 @@
        :ensure t
        :after lsp-mode
        :config (setq lsp-ui-sideline-diagnostic-max-lines 25))
+   #+end_src
+
+** lsp-metals (for scala)
+   #+begin_src emacs-lisp
+     (use-package lsp-metals
+       :ensure t)
    #+end_src
 
 * org-mode
@@ -407,6 +414,19 @@
       :mode ("\\.yml\\'"))
   #+end_src
 
+* scala-mode
+  #+begin_src emacs-lisp
+    (use-package scala-mode
+      :ensure t
+      :mode "\\.sc\\'")
+  #+end_src
+
+** ammonite-term-repl
+   #+begin_src emacs-lisp
+     (use-package ammonite-term-repl
+       :ensure t
+       :config (setq ammonite-term-repl-auto-detect-predef-file nil))
+   #+end_src
 
 
 
