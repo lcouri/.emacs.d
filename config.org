@@ -489,7 +489,8 @@
 	     ("M-s ." . (lambda () (interactive) (consult-line (thing-at-point 'symbol))))
 	     ("M-s s" . consult-git-grep)
 	     ("M-y" . consult-yank-pop)
-	     ("C-x r e" . consult-bookmark))
+	     ("C-x r e" . consult-bookmark)
+	     ("M-s m" . consult-global-mark))
       :config (progn
 		(setq consult-git-grep-command
 		      "git --no-pager grep --null --color=always --extended-regexp --line-number -I -i -e ARG OPTS")
