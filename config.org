@@ -242,7 +242,6 @@
 
 * My key bindings
   #+begin_src emacs-lisp
-    (global-set-key (kbd "RET") 'newline-and-indent)
     (global-set-key (kbd "<f5>") 'revert-buffer)
     (global-set-key (kbd "M-u") 'upcase-dwim)
     (global-set-key (kbd "M-l") 'downcase-dwim)
