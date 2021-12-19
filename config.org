@@ -390,7 +390,7 @@
   #+begin_src emacs-lisp
     (use-package scss-mode
       :ensure t
-      :mode ("\\.scss\\''" "\\.sass\\''")
+      :mode ("\\.scss\\''" "\\.sass\\''" "\\.less\\''")
       :hook (scss-mode . (lambda () (progn
 				      (setq-local indent-tabs-mode nil)
 				      (setq css-indent-offset 2)))))
