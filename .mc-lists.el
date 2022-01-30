@@ -3,12 +3,15 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	avy-goto-char-in-line
 	c-electric-brace
+	c-electric-colon
 	c-electric-delete-forward
 	c-electric-paren
 	c-electric-semi&comma
 	c-indent-line-or-region
 	capitalize-dwim
+	comment-dwim
 	delete-horizontal-space
 	downcase-dwim
 	downcase-region
