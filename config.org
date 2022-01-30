@@ -790,6 +790,7 @@
 	      treemacs-follow-after-init             t
 	      treemacs-show-cursor                   t ;; otherwise can't see cursor when e.g. renaming a file
 	      treemacs-width                         45
+	      treemacs-read-string-input             'from-minibuffer ;; having some problems with 'from-child-frame
 	      ;; treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
 	      ;; treemacs-directory-name-transformer    #'identity
 	      ;; treemacs-display-in-side-window        t
