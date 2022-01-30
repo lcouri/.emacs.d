@@ -436,49 +436,36 @@
 
 
 
-* selectrum
-  A nice, simple interface for selecting an item from a list. I believe it's made to work with the existing
-  Emacs APIs for completion, which means it should work better with other packages.
-  =selectrum-repeat= brings up the last selectrum use - handy for continuing a search, or doing the last =M-x=
-  command again.
-  Using melpa-stable version since it keeps breaking for me.
+* vertico
+  Trying this out as an alternative to selectrum.
+  One thing I like about it is that it supports cycling. One thing I dislike is that the default candidate is always
+  moved to the top. I had a hack for =consult-line= to start the candidates from the top and make the default candidate
+  start from the current line (rather than it's default of starting the candidates from the current line and wrapping
+  around to the top). That hack doesn't work with vertico, but on plus side I can just enable cycling now 🤷
   #+begin_src emacs-lisp
-    (use-package selectrum
+    (use-package vertico
       :ensure t
-      :pin melpa-stable
-      :init (selectrum-mode +1)
-      :bind ("C-c r" . 'selectrum-repeat)
-      :config
-      (progn
-	;; it's really annoying to have candidates out of order, especially for something like consult-line
-	(setq-default selectrum-move-default-candidate nil)
-	;; I prefer the height to be fixed rather than expanding while I'm scrolling
-	(setq selectrum-fix-vertical-window-height t)))
+      :init (vertico-mode)
+      :config (setq vertico-cycle t))
   #+end_src
 
-* prescient
-  Sorting and filtering candidates in lists; specifically for selectrum in this case, but in theory if I wanted
-  to swap out selectrum it should be possible.
-  Mostly I use it for the regex filter - I prefer that to fuzzy search. It also sorts by most used, I think,
-  which is also handy.
-  Remember the keybinding for the toggle map is =M-s= and the toggles are:
-  | r | regex      |
-  | p | prefix     |
-  | l | literal    |
-  | i | initialism |
-  | f | fuzzy      |
-  | a | anchored   |
-  ^Just putting that here because it's a bit annoying to find the toggle map button, and which-key cuts off the
-  important part of the toggle function names.
-  Using melpa-stable version because this has broken a few times for me recently.
+** vertico-indexed
+   Adds numbers to the margin 🙂
+   #+begin_src emacs-lisp
+     (use-package vertico-indexed
+       :after vertico
+       :ensure nil
+       :init (vertico-indexed-mode))
+   #+end_src
+
+* orderless
+  Mostly using this because I'm not sure that prescient supports vertico.
   #+begin_src emacs-lisp
-    (use-package selectrum-prescient
+    (use-package orderless
       :ensure t
-      :pin melpa-stable
-      :after selectrum
-      :config (progn (prescient-persist-mode t)
-		     (selectrum-prescient-mode t)
-		     (setq prescient-filter-method '(regexp))))
+      :init (setq completion-styles '(orderless)
+		  completion-category-defaults nil
+		  completion-category-overrides '((file (styles partial-completion)))))
   #+end_src
 
 * marginalia
@@ -518,13 +505,7 @@
 	     ("C-x r e" . consult-bookmark)
 	     ("M-s m" . consult-global-mark))
       :config (progn
-		(setq consult-git-grep-command
-		      "git --no-pager grep --null --color=always --extended-regexp --line-number -I -i -e ARG OPTS")
-		(setq consult-project-root-function (lambda () (cdr (project-current))))
-		;; They changed the default behaviour from 0.6 -> 0.7 and added this variable to go back to the old behaviour.
-		;; Seriously annoying! Drove me crazy for an hour while at work, especially because I initially thought
-		;; it was selectrum since they had done something like this before.
-		(setq-default consult-line-start-from-top t)))
+		(setq consult-project-root-function (lambda () (cdr (project-current))))))
   #+end_src
 
 ** consult-flycheck
