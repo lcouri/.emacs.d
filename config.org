@@ -240,6 +240,18 @@
      (global-set-key (kbd "C-c h") 'hs-toggle-hiding)
    #+end_src
 
+** savehist-mode
+   Save minibuffer history
+   #+begin_src emacs-lisp
+     (savehist-mode)
+   #+end_src
+
+** Makes shadowed file paths invisible/hidden in the minibuffer
+   So when using find-file, typing ~ or / will hide path before them.
+   #+begin_src emacs-lisp
+     (setq file-name-shadow-properties '(invisible t))
+   #+end_src
+
 * My key bindings
   #+begin_src emacs-lisp
     (global-set-key (kbd "<f5>") 'revert-buffer)
