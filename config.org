@@ -260,6 +260,16 @@
     (global-set-key (kbd "M-c") 'capitalize-dwim)
   #+end_src
 
+  Putting the emoji shortcuts from "C-x 8 e" onto "C-M-;" for convenience.
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-M-; d") 'emoji-describe)
+    (global-set-key (kbd "C-M-; e") 'emoji-insert)
+    (global-set-key (kbd "C-M-; i") 'emoji-insert)
+    (global-set-key (kbd "C-M-; l") 'emoji-list)
+    (global-set-key (kbd "C-M-; r") 'emoji-recent)
+    (global-set-key (kbd "C-M-; s") 'emoji-search)
+  #+end_src
+
 * Custom functions
 ** my/parent-dir
    Helper function to get the parent directory of a file/folder
@@ -693,15 +703,6 @@
 	(setq company-idle-delay 0)
 	(setq company-minimum-prefix-length 1)))
   #+end_src
-
-** company-emoji
-   Makes it easier to insert emojis 😁
-   #+begin_src emacs-lisp
-     (use-package company-emoji
-       :ensure t
-       :after company
-       :config (add-to-list 'company-backends 'company-emoji))
-   #+end_src
 
 * window-jump
   For easy window switching.
