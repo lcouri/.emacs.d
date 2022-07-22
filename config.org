@@ -393,7 +393,7 @@
   #+begin_src emacs-lisp
     (use-package web-mode
       :ensure t
-      :mode ("\\.js\\'" "\\.jsx\\'" "\\.html\\'" "\\.tsx\\'" "\\.ts\\'")
+      :mode ("\\.js\\'" "\\.jsx\\'" "\\.html\\'" "\\.tsx\\'" "\\.ts\\'" "\\.mdx\\'")
       :hook (web-mode . (lambda () (setq-local indent-tabs-mode nil)))
       :config
       (progn
