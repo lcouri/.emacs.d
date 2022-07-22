@@ -519,7 +519,6 @@
   #+begin_src emacs-lisp
     (use-package consult
       :ensure t
-      :pin melpa-stable
       :bind (("C-s" . consult-line)
 	     ("C-x b" . consult-buffer)
 	     ("C-x 4 b" . consult-buffer-other-window)
@@ -543,6 +542,18 @@
        :after flycheck
        :bind (:map flycheck-command-map
 		   ("!" . consult-flycheck)))
+   #+end_src
+
+** consult-lsp
+   Some handy functions for searching symbols and errors.
+   #+begin_src emacs-lisp
+     (use-package consult-lsp
+       :ensure t
+       :after (consult lsp)
+       :bind (("M-s d" . consult-lsp-diagnostics)
+	      ("M-s f" . consult-lsp-file-symbols)
+	      ("M-s g" . consult-lsp-symbols))
+       :config (consult-lsp-marginalia-mode))
    #+end_src
 
 * embark
