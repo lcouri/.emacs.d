@@ -436,8 +436,7 @@
       :ensure t
       :mode ("\\.json\\'")
       :hook (json-mode . (lambda () (progn
-				      (setq-local indent-tabs-mode t)
-				      (setq-local js-indent-level 8)))))
+				      (setq-local js-indent-level 2)))))
   #+end_src
 
 * yaml-mode
