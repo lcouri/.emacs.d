@@ -97,6 +97,12 @@
      (setq auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-save-list/") t)))
    #+end_src
 
+** disable lock files
+   They seem to mess with some build systems
+   #+begin_src emacs-lisp
+     (setq create-lockfiles nil)
+   #+end_src
+
 ** Only need one space for end of sentence.
    #+begin_src emacs-lisp
      (setq sentence-end-double-space nil)
