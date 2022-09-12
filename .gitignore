@@ -7,8 +7,8 @@ games/
 url/
 emojis/
 eln-cache/
-transient/
 var/
+transient/history.el
 .lsp-session*
 .org-id-locations
 *.elc
