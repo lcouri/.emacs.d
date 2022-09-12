@@ -346,7 +346,9 @@
        :hook (;; replace xxx-mode with concrete major-mode(e. g. python-mode)
 	      (web-mode . (lambda ()
 			    (when (or (string= (file-name-extension buffer-file-name) "ts")
-				      (string= (file-name-extension buffer-file-name) "tsx"))
+				      (string= (file-name-extension buffer-file-name) "tsx")
+				      (string= (file-name-extension buffer-file-name) "vue")
+				      (string= (file-name-extension buffer-file-name) "js"))
 			      (lsp-deferred))))
 	      (scala-mode . lsp-deferred)
 	      ;; if you want which-key integration
@@ -399,7 +401,7 @@
   #+begin_src emacs-lisp
     (use-package web-mode
       :ensure t
-      :mode ("\\.js\\'" "\\.jsx\\'" "\\.html\\'" "\\.tsx\\'" "\\.ts\\'" "\\.mdx\\'")
+      :mode ("\\.js\\'" "\\.jsx\\'" "\\.html\\'" "\\.tsx\\'" "\\.ts\\'" "\\.mdx\\'" "\\.vue\\'")
       :hook (web-mode . (lambda () (setq-local indent-tabs-mode nil)))
       :config
       (progn
@@ -412,11 +414,12 @@
 	(setq web-mode-enable-current-column-highlight t)
 	(setq web-mode-enable-auto-quoting nil)
 	(setq web-mode-indentation-params nil)
+	(setq web-mode-script-padding 0)
+	(setq web-mode-style-padding 0)
 	(setq-default web-mode-comment-formats '(("javascript" . "//")
 						 ("typescript" . "//")
 						 ("jsx" . "//")
 						 ("css" . "/*")))))
-
   #+end_src
 
 * scss-mode
