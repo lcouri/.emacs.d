@@ -462,14 +462,6 @@
       :mode "\\.sc\\'")
   #+end_src
 
-** ammonite-term-repl
-   #+begin_src emacs-lisp
-     (use-package ammonite-term-repl
-       :ensure t
-       :config (setq ammonite-term-repl-auto-detect-predef-file nil))
-   #+end_src
-
-
 
 * vertico
   Trying this out as an alternative to selectrum.
