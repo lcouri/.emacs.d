@@ -572,6 +572,14 @@
 		    embark-become-indicator embark-action-indicator))
   #+end_src
 
+** embark-consult
+  Embark integration with consult.
+   #+begin_src emacs-lisp
+     (use-package embark-consult
+       :ensure t
+       :after (embark consult))
+   #+end_src
+
 
 * multiple-cursors
   I've added advice to make it work more like how I think it should work - mark-next and mark-previous do not move the cursor to the next and previous word by default.
