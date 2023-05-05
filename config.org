@@ -715,18 +715,66 @@
       :ensure t)
   #+end_src
 
-* company
+* corfu
+  COmpletion in Region FUnction
+  In-buffer completion using Emacs standard completion api (Capfs)
   #+begin_src emacs-lisp
-    (use-package company
+    (use-package corfu
       :ensure t
+      :custom
+      (corfu-cycle t)
+      (corfu-auto t)
+      (corfu-auto-prefix 1)
+      (corfu-auto-delay 0.0)
+      (corfu-quit-at-boundary 'separator)
+      (corfu-echo-documentation 0.25)
+      (corfu-preview-current 'insert)
+      :bind (:map corfu-map
+		  ("M-SPC" . corfu-insert-separator))
+      :init
+      (global-corfu-mode)
+      (corfu-history-mode)
       :config
-      (progn
-	(add-hook 'after-init-hook 'global-company-mode)
-	(setq company-dabbrev-downcase nil)
-	(setq company-dabbrev-ignore-case nil)
-	(setq company-idle-delay 0)
-	(setq company-minimum-prefix-length 1)))
+      (setq completion-ignore-case t))
   #+end_src
+
+** cape
+   Completion At Point Extensions
+   For additional Capf backends and potentially converting Company backends to corfu
+   #+begin_src emacs-lisp
+	  (use-package cape
+	    :ensure t
+	    :after corfu
+	    :bind (("C-c c" . completion-at-point) ;; capf
+		   )
+	    :init
+	    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+	    (add-to-list 'completion-at-point-functions #'cape-file)
+	    (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+	    ;;(add-to-list 'completion-at-point-functions #'cape-history)
+	    ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
+	    ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+	    ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
+	    ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
+	    ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
+	    ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
+	    ;;(add-to-list 'completion-at-point-functions #'cape-dict)
+	    ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
+	    ;;(add-to-list 'completion-at-point-functions #'cape-line)
+	  )
+   #+end_src
+
+** kind-icon
+   To show icons in the popup
+   #+begin_src emacs-lisp
+     (use-package kind-icon
+       :ensure t
+       :after corfu
+       :custom
+       (kind-icon-default-face 'corfu-default)
+       :config
+       (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+   #+end_src
 
 * window-jump
   For easy window switching.
