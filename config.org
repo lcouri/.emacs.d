@@ -342,7 +342,11 @@
      (use-package lsp-mode
        :ensure t
        ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-       :init (setq lsp-keymap-prefix "C-'")
+       :init
+       (setq lsp-keymap-prefix "C-'")
+       (defun my/lsp-mode-setup-completion ()
+	 (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+	       '(orderless)))
        :hook (;; replace xxx-mode with concrete major-mode(e. g. python-mode)
 	      (web-mode . (lambda ()
 			    (when (or (string= (file-name-extension buffer-file-name) "ts")
@@ -352,14 +356,16 @@
 			      (lsp-deferred))))
 	      (scala-mode . lsp-deferred)
 	      ;; if you want which-key integration
-	      (lsp-mode . lsp-enable-which-key-integration))
+	      (lsp-mode . lsp-enable-which-key-integration)
+	      (lsp-completion-mode . my/lsp-mode-setup-completion))
        :commands (lsp lsp-deferred)
        :config (progn
 		 (setenv "PATH" (concat (getenv "PATH") ":/home/lutfi/.npm-packages/bin"))
 		 (add-to-list 'exec-path "/home/lutfi/.npm-packages/bin")
 		 (setq lsp-prefer-flymake nil)
 		 (setq lsp-enable-indentation nil)
-		 (setq lsp-headerline-breadcrumb-enable nil)))
+		 (setq lsp-headerline-breadcrumb-enable nil)
+		 (setq lsp-completion-provider :none)))
    #+end_src
 
 ** lsp-ui
