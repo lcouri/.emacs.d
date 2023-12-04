@@ -683,16 +683,6 @@
       (setq undo-tree-auto-save-history nil))
   #+end_src
 
-* projectile
-  #+begin_src emacs-lisp
-    (use-package projectile
-      :ensure t
-      :bind ("C-c p" . 'projectile-command-map)
-      :config
-      (projectile-mode t)
-      (setq projectile-enable-caching t))
-  #+end_src
-
 * magit
   #+begin_src emacs-lisp
     (use-package magit
@@ -829,7 +819,7 @@
 		(setq telephone-line-lhs
 		      '((blue . (telephone-line-buffer-name-segment))
 			(accent . (telephone-line-buffer-modified-segment
-				   telephone-line-projectile-segment))
+				   telephone-line-project-segment))
 			(nil   . (telephone-line-vc-segment
 				  telephone-line-erc-modified-channels-segment
 				  telephone-line-process-segment))))
@@ -917,13 +907,6 @@
 		   ("M-L" . nil)
 		   ("M-H" . nil))))
   #+end_src
-
-** treemacs-projectile
-   #+begin_src emacs-lisp
-     (use-package treemacs-projectile
-       :after (treemacs projectile)
-       :ensure t)
-   #+end_src
 
 ** treemacs-icons-dired
    #+begin_src emacs-lisp
