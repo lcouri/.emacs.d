@@ -258,6 +258,11 @@
      (setq file-name-shadow-properties '(invisible t))
    #+end_src
 
+** js-indent-level
+  #+begin_src emacs-lisp
+    (setq js-indent-level 2)
+  #+end_src
+
 * My key bindings
   #+begin_src emacs-lisp
     (global-set-key (kbd "<f5>") 'revert-buffer)
@@ -449,9 +454,7 @@
   #+begin_src emacs-lisp
     (use-package json-mode
       :ensure t
-      :mode ("\\.json\\'")
-      :hook (json-mode . (lambda () (progn
-				      (setq-local js-indent-level 2)))))
+      :mode ("\\.json\\'"))
   #+end_src
 
 * yaml-mode
