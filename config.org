@@ -259,9 +259,16 @@
    #+end_src
 
 ** js-indent-level
-  #+begin_src emacs-lisp
-    (setq js-indent-level 2)
-  #+end_src
+   #+begin_src emacs-lisp
+     (setq js-indent-level 2)
+   #+end_src
+
+** re-builder
+   The default value of 'read means you need a lot of escape backslashes to match a backslash character.
+   This is reduced by setting it to 'string.
+   #+begin_src emacs-lisp
+     (setq reb-re-syntax 'string)
+   #+end_src
 
 * My key bindings
   #+begin_src emacs-lisp
