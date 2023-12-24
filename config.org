@@ -978,3 +978,14 @@
       :ensure t
       :config (exec-path-from-shell-initialize))
   #+end_src
+
+* magit-delta
+  To highlight the changes within a line.
+  This requires the package git-delta (that's the name in arch's repos anyway) to be installed,
+  which is why we're checking for the "delta" executable.
+  #+begin_src emacs-lisp
+    (use-package magit-delta
+      :if (executable-find "delta")
+      :ensure t
+      :hook (magit-mode . magit-delta-mode))
+  #+end_src
