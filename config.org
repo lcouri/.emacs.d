@@ -724,6 +724,7 @@
 * corfu
   COmpletion in Region FUnction
   In-buffer completion using Emacs standard completion api (Capfs)
+  Disabling when multiple-cursors is active because it really slows things down.
   #+begin_src emacs-lisp
     (use-package corfu
       :ensure t
@@ -740,8 +741,11 @@
       :init
       (global-corfu-mode)
       (corfu-history-mode)
+      :after multiple-cursors
       :config
-      (setq completion-ignore-case t))
+      (setq completion-ignore-case t)
+      (add-hook 'multiple-cursors-enabled-hook (lambda () (corfu-mode -1)))
+      (add-hook 'multiple-cursors-disabled-hook (lambda () (corfu-mode 1))))
   #+end_src
 
 ** cape
