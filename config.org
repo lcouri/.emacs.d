@@ -1,4 +1,4 @@
-#+STARTUP: hidestars
+#+STARTUP: indent
 #+TITLE: Emacs Configuration
 
 * Consts
@@ -404,11 +404,6 @@ Use the latest org-mode package from the org archives.
   (use-package org-contrib
     :ensure t
     :defer t)
-#+end_src
-
-** Settings
-#+begin_src emacs-lisp
-  (org-indent-mode 1)
 #+end_src
 
 ** Org packages
