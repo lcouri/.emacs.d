@@ -24,3 +24,6 @@
 ;; cursor color is concerned).
 (advice-add #'x-apply-session-resources :override #'ignore)
 ;; ------------------------
+
+;; disable package.el in favour of elpaca
+(setq package-enable-at-startup nil)

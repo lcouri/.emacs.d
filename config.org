@@ -59,8 +59,8 @@ Set default font family to "Hack" (my favourite monospace font) if it exists.
 Save customise settings in its own file, instead of init.el
 #+begin_src emacs-lisp
   (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
-  (when (file-exists-p custom-file)
-    (load custom-file))
+  (add-hook 'elpaca-after-init-hook (lambda () (when (file-exists-p custom-file)
+    (load custom-file))))
 #+end_src
 
 ** Enable disabled functions
@@ -532,7 +532,6 @@ hopefully I don't have to deal with it too much again.
 I've set =consult-git-grep-command= to add the =-i= option, so that it's case insensitive. I'd like to make a
 function that toggles case sensitivity at some point.
 Look into =consult-preview-key= to toggle preview mode (can be done per command).
-Using melpa-stable version because, while I'm not sure if this actually broke recently, I really don't  want it to.
 #+begin_src emacs-lisp
   (use-package consult
     :ensure t
