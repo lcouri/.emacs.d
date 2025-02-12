@@ -376,8 +376,6 @@ Somewhat of a rush job right now, but it works 😅
            (lsp-completion-mode . my/lsp-mode-setup-completion))
     :commands (lsp lsp-deferred)
     :config (progn
-              (setenv "PATH" (concat (getenv "PATH") ":/home/lutfi/.npm-packages/bin"))
-              (add-to-list 'exec-path "/home/lutfi/.npm-packages/bin")
               (setq lsp-prefer-flymake nil)
               (setq lsp-enable-indentation nil)
               (setq lsp-headerline-breadcrumb-enable nil)
