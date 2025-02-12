@@ -235,8 +235,8 @@ Comp warnings come up all the time in the gccemacs branch.
 ** hide show
 Enable in prog-modes and use a nicer key bind 🙂
 #+begin_src emacs-lisp
-  (add-hook 'prog-mode-hook (lambda () (hs-minor-mode 1)))
-  (global-set-key (kbd "C-c h") 'hs-toggle-hiding)
+  ;; (add-hook 'prog-mode-hook (lambda () (hs-minor-mode 1)))
+  ;; (global-set-key (kbd "C-c h") 'hs-toggle-hiding)
 #+end_src
 
 ** savehist-mode
@@ -340,6 +340,17 @@ Runs =eslint --fix= on the current file if it's available.
 #+end_src
 
 
+* treesit-auto
+#+begin_src emacs-lisp
+  (use-package treesit-auto
+    :ensure t
+    :custom
+    (treesit-auto-install 'prompt)
+    :config
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    (global-treesit-auto-mode))
+#+end_src
+
 * lsp-mode
 Somewhat of a rush job right now, but it works 😅
 ** main
@@ -353,10 +364,11 @@ Somewhat of a rush job right now, but it works 😅
       (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
             '(orderless)))
     :hook (;; replace xxx-mode with concrete major-mode(e. g. python-mode)
+  	 (typescript-ts-mode . lsp-deferred)
+  	 (vue-ts-mode . lsp-deferred)
+  	 (html-ts-mode . lsp-deferred)
            (web-mode . (lambda ()
-                         (when (or (string= (file-name-extension buffer-file-name) "ts")
-                                   (string= (file-name-extension buffer-file-name) "tsx")
-                                   (string= (file-name-extension buffer-file-name) "vue")
+                         (when (or (string= (file-name-extension buffer-file-name) "tsx")
                                    (string= (file-name-extension buffer-file-name) "js"))
                            (lsp-deferred))))
            ;; if you want which-key integration
@@ -405,7 +417,7 @@ For fancy looking stars
 #+begin_src emacs-lisp
   (use-package web-mode
     :ensure t
-    :mode ("\\.js\\'" "\\.jsx\\'" "\\.html\\'" "\\.tsx\\'" "\\.ts\\'" "\\.mdx\\'" "\\.vue\\'")
+    :mode ("\\.js\\'" "\\.jsx\\'" "\\.tsx\\'" "\\.mdx\\'")
     :hook (web-mode . (lambda () (setq-local indent-tabs-mode nil)))
     :config
     (progn
@@ -426,6 +438,31 @@ For fancy looking stars
                                                ("css" . "/*")))))
 #+end_src
 
+* vue-ts-mode
+#+begin_src emacs-lisp
+  (use-package vue-ts-mode
+    :ensure (:host github :repo "8uff3r/vue-ts-mode")
+    :mode ("\\.vue\\'"))
+#+end_src
+
+* typescript-ts-mode
+#+begin_src emacs-lisp
+  (use-package typescript-ts-mode
+    :mode ("\\.ts\\'"))
+#+end_src
+
+* html-ts-mode
+#+begin_src emacs-lisp
+  (use-package html-ts-mode
+    :mode ("\\.html\\'"))
+#+end_src
+
+* css-ts-mode
+#+begin_src emacs-lisp
+  (use-package css-ts-mode
+    :mode ("\\.css\\'"))
+#+end_src
+
 * scss-mode
 #+begin_src emacs-lisp
   (use-package scss-mode
@@ -443,10 +480,9 @@ For fancy looking stars
     :mode ("\\.sass\\'"))
 #+end_src
 
-* json-mode
+* json-ts-mode
 #+begin_src emacs-lisp
-  (use-package json-mode
-    :ensure t
+  (use-package json-ts-mode
     :mode ("\\.json\\'"))
 #+end_src
 
