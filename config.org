@@ -359,7 +359,6 @@ Somewhat of a rush job right now, but it works 😅
                                    (string= (file-name-extension buffer-file-name) "vue")
                                    (string= (file-name-extension buffer-file-name) "js"))
                            (lsp-deferred))))
-           (scala-mode . lsp-deferred)
            ;; if you want which-key integration
            (lsp-mode . lsp-enable-which-key-integration)
            (lsp-completion-mode . my/lsp-mode-setup-completion))
@@ -381,12 +380,6 @@ to turn off set lsp-auto-configure to nil
     :ensure t
     :after lsp-mode
     :config (setq lsp-ui-sideline-diagnostic-max-lines 25))
-#+end_src
-
-** lsp-metals (for scala)
-#+begin_src emacs-lisp
-  (use-package lsp-metals
-    :ensure t)
 #+end_src
 
 * org-mode
@@ -462,13 +455,6 @@ For fancy looking stars
   (use-package yaml-mode
     :ensure t
     :mode ("\\.yml\\'"))
-#+end_src
-
-* scala-mode
-#+begin_src emacs-lisp
-  (use-package scala-mode
-    :ensure t
-    :mode "\\.sc\\'")
 #+end_src
 
 
