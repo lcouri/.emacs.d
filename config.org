@@ -665,7 +665,7 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
 * undo-tree
 #+begin_src emacs-lisp
   (use-package undo-tree
-    :ensure t
+    :ensure (:host gitlab :repo "tsc25/undo-tree")
     :config
     (global-undo-tree-mode)
     (setq undo-tree-auto-save-history nil))
