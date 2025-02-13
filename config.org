@@ -534,10 +534,6 @@ A bunch of useful commands and enhancements to existing commands. I find it most
 =consult-line= and the live updating =git-grep=. I know a lot of people prefer =ripgrep=, but I haven't found
 it to be that much faster so far (maybe I just need bigger projects), and besides I'm pretty sure it's the
 emacs side that's the bottleneck anyway.
-I've been having some annoyance at the unstable api for =consult-git-grep=, but it seems to work ok now and
-hopefully I don't have to deal with it too much again.
-I've set =consult-git-grep-command= to add the =-i= option, so that it's case insensitive. I'd like to make a
-function that toggles case sensitivity at some point.
 Look into =consult-preview-key= to toggle preview mode (can be done per command).
 #+begin_src emacs-lisp
   (use-package consult
