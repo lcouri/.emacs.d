@@ -340,17 +340,6 @@ Runs =eslint --fix= on the current file if it's available.
 #+end_src
 
 
-* treesit-auto
-#+begin_src emacs-lisp
-  (use-package treesit-auto
-    :ensure t
-    :custom
-    (treesit-auto-install 'prompt)
-    :config
-    (treesit-auto-add-to-auto-mode-alist 'all)
-    (global-treesit-auto-mode))
-#+end_src
-
 * lsp-mode
 Somewhat of a rush job right now, but it works 😅
 ** main
@@ -436,29 +425,47 @@ For fancy looking stars
                                                ("css" . "/*")))))
 #+end_src
 
-* vue-ts-mode
+* tree-sitter
+** treesit-auto
+#+begin_src emacs-lisp
+  (use-package treesit-auto
+    :ensure t
+    :custom
+    (treesit-auto-install 'prompt)
+    :config
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    (global-treesit-auto-mode))
+#+end_src
+
+** vue-ts-mode
 #+begin_src emacs-lisp
   (use-package vue-ts-mode
     :ensure (:host github :repo "8uff3r/vue-ts-mode")
     :mode ("\\.vue\\'"))
 #+end_src
 
-* typescript-ts-mode
+** typescript-ts-mode
 #+begin_src emacs-lisp
   (use-package typescript-ts-mode
     :mode ("\\.ts\\'"))
 #+end_src
 
-* html-ts-mode
+** html-ts-mode
 #+begin_src emacs-lisp
   (use-package html-ts-mode
     :mode ("\\.html\\'"))
 #+end_src
 
-* css-ts-mode
+** css-ts-mode
 #+begin_src emacs-lisp
   (use-package css-ts-mode
     :mode ("\\.css\\'"))
+#+end_src
+
+** json-ts-mode
+#+begin_src emacs-lisp
+  (use-package json-ts-mode
+    :mode ("\\.json\\'"))
 #+end_src
 
 * scss-mode
@@ -476,19 +483,6 @@ For fancy looking stars
   (use-package sass-mode
     :ensure t
     :mode ("\\.sass\\'"))
-#+end_src
-
-* json-ts-mode
-#+begin_src emacs-lisp
-  (use-package json-ts-mode
-    :mode ("\\.json\\'"))
-#+end_src
-
-* yaml-mode
-#+begin_src emacs-lisp
-  (use-package yaml-mode
-    :ensure t
-    :mode ("\\.yml\\'"))
 #+end_src
 
 
