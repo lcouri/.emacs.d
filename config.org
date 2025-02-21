@@ -678,8 +678,10 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
 #+end_src
 
 * try
+Use elpaca-try now
 #+begin_src emacs-lisp
   (use-package try
+    :disabled
     :ensure t)
 #+end_src
 
