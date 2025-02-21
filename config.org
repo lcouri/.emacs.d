@@ -441,31 +441,36 @@ For fancy looking stars
 #+begin_src emacs-lisp
   (use-package vue-ts-mode
     :ensure (:host github :repo "8uff3r/vue-ts-mode")
-    :mode ("\\.vue\\'"))
+    :mode ("\\.vue\\'")
+    :hook (vue-ts-mode . (lambda () (setq-local indent-tabs-mode nil))))
 #+end_src
 
 ** typescript-ts-mode
 #+begin_src emacs-lisp
   (use-package typescript-ts-mode
-    :mode ("\\.ts\\'"))
+    :mode ("\\.ts\\'")
+    :hook (typescript-ts-mode . (lambda () (setq-local indent-tabs-mode nil))))
 #+end_src
 
 ** html-ts-mode
 #+begin_src emacs-lisp
   (use-package html-ts-mode
-    :mode ("\\.html\\'"))
+    :mode ("\\.html\\'")
+    :hook (html-ts-mode . (lambda () (setq-local indent-tabs-mode nil))))
 #+end_src
 
 ** css-ts-mode
 #+begin_src emacs-lisp
   (use-package css-ts-mode
-    :mode ("\\.css\\'"))
+    :mode ("\\.css\\'")
+    :hook (css-ts-mode . (lambda () (setq-local indent-tabs-mode nil))))
 #+end_src
 
 ** json-ts-mode
 #+begin_src emacs-lisp
   (use-package json-ts-mode
-    :mode ("\\.json\\'"))
+    :mode ("\\.json\\'")
+    :hook (json-ts-mode . (lambda () (setq-local indent-tabs-mode nil))))
 #+end_src
 
 * scss-mode
