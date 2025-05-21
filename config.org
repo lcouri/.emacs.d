@@ -405,7 +405,7 @@ For fancy looking stars
     :hook (org-mode . (lambda () (org-superstar-mode 1))))
 #+end_src
 
-* web-mode
+* TODO (maybe remove? or at least improve vue-ts-mode's template section with some ideas from this) web-mode
 #+begin_src emacs-lisp
   (use-package web-mode
     :ensure t
@@ -478,7 +478,7 @@ For fancy looking stars
     :hook (json-ts-mode . (lambda () (setq-local indent-tabs-mode nil))))
 #+end_src
 
-* scss-mode
+* TODO (would be real nice if there was treesitter mode for this (that could also work in vue-ts-mode)) scss-mode / sass-mode
 #+begin_src emacs-lisp
   (use-package scss-mode
     :ensure t
@@ -486,10 +486,7 @@ For fancy looking stars
     :hook (scss-mode . (lambda () (progn
                                     (setq-local indent-tabs-mode nil)
                                     (setq css-indent-offset 2)))))
-#+end_src
 
-* sass-mode
-#+begin_src emacs-lisp
   (use-package sass-mode
     :ensure t
     :mode ("\\.sass\\'"))
@@ -609,7 +606,7 @@ Embark integration with consult.
 #+end_src
 
 
-* multiple-cursors
+* TODO (check if there's updated functionality and think about how to bind the mc/skip... functions) multiple-cursors
 I've added advice to make it work more like how I think it should work - mark-next and mark-previous do not move the cursor to the next and previous word by default.
 
 *Issues* mark-next and mark-previous only move the cursor to the next or previous multi cursor - so if your cursor is in the middle it won't jump to the new selection.
@@ -655,9 +652,9 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
       (advice-add 'mc/unmark-previous-like-this :before 'advice-mc/cycle-forward)))
 #+end_src
 
-* flycheck
-** main
+* TODO (cleanup and think about how this works with lsps) flycheck
 Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html][this post]] to get flycheck using the local eslint.
+(probably don't need that functionality anymore since we're just using the lsp now)
 #+begin_src emacs-lisp
   (defun set-eslint ()
     (let ((eslint (my/recursive-locate-file "node_modules" '(".bin" "eslint"))))
@@ -707,7 +704,7 @@ Use elpaca-try now
     (setq undo-tree-auto-save-history nil))
 #+end_src
 
-* magit
+* TODO (see if you can do anything about magit-delta) magit
 The transient package is built-in, but it seems that the version that magit uses is newer so we need to download it.
 #+begin_src emacs-lisp
   (use-package transient
@@ -751,7 +748,7 @@ Disabled because it looks like it's incompatible with the current magit version
            ("M-#" . avy-goto-word-1)))
 #+end_src
 
-* web-beautify
+* TODO (check that npm package is installed) web-beautify
 #+begin_src emacs-lisp
   (use-package web-beautify
     :ensure t)
@@ -824,9 +821,8 @@ To show icons in the popup
 * window-jump
 For easy window switching.
 
-I don't really like these bindings because I have to move my hand to the arrow keys and back.
-The problem is I don't want it in a keymap either, and the (n p f b) keys already have modifier bindings
-(super is reserved for global (non-emacs) shortcuts)
+I've made ijkl my general arrow key equivalent bindings. Sort of like wasd, but shifted to the right side.
+(also I guess sort of like where the arrow keys are in vim, but personally i=⬆️, j=⬅️, k=⬇️, l=➡️ makes much more sense to me)
 #+begin_src emacs-lisp
   (use-package window-jump
     :ensure t
@@ -854,7 +850,7 @@ The problem is I don't want it in a keymap either, and the (n p f b) keys alread
            ("C-c C-p" . rotate-layout)))
 #+end_src
 
-* telephone-line
+* TODO (look into making this nicer) telephone-line
 Customising the mode-line so it looks nice and is easier to read.
 The customisations to telephone-line are just to put the buffer name as the first thing on the left,
 otherwise it gets hard to read when lots of windows are open.
@@ -977,7 +973,7 @@ then emacs will crash if it doesn't have emoji support 😑
     :ensure t)
 #+end_src
 
-* zoom
+* TODO (look into the which-key thing again) zoom
 #+begin_src emacs-lisp
   (use-package zoom
     :ensure t
