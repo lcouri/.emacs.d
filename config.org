@@ -369,15 +369,13 @@ Somewhat of a rush job right now, but it works 😅
            (lsp-mode . lsp-enable-which-key-integration)
            (lsp-completion-mode . my/lsp-mode-setup-completion))
     :commands (lsp lsp-deferred)
-    :config (progn
-              (setq lsp-prefer-flymake nil)
-              (setq lsp-enable-indentation nil)
-              (setq lsp-headerline-breadcrumb-enable nil)
-              (setq lsp-completion-provider :none)))
+    :custom (lsp-enable-indentation nil)
+            (lsp-headerline-breadcrumb-enable nil)
+            (lsp-completion-provider :none))
 #+end_src
 
 ** lsp-ui
-lsp-mode auto-detects and configures lsp-ui and company-lsp
+lsp-mode auto-detects and configures lsp-ui
 to turn off set lsp-auto-configure to nil
 #+begin_src emacs-lisp
   (use-package lsp-ui
@@ -998,6 +996,7 @@ ways of stopping zoom from resizing it yet.
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
     :ensure t
-    :config (exec-path-from-shell-initialize))
+    :config (exec-path-from-shell-initialize)
+    (add-to-list 'exec-path-from-shell-variables "LSP_USE_PLISTS"))
 #+end_src
 

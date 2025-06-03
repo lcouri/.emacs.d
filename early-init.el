@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
+(setenv "LSP_USE_PLISTS" "true")
 ;; Increase gc threshold and read-process to improve lsp
 ;; Note: I'm a bit unclear on if these are fine to have increased all the time - need to look into it more
 (setq gc-cons-threshold (* 1024 1024 50))
