@@ -697,12 +697,15 @@ Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-ema
 * TODO (see if you can do anything about magit-delta) magit
 The transient package is built-in, but it seems that the version that magit uses is newer so we need to download it.
 #+begin_src emacs-lisp
+  (use-package cond-let
+    :ensure (:host github :repo "tarsius/cond-let"))
+
   (use-package transient
     :ensure t)
 
   (use-package magit
     :ensure t
-    :after transient
+    :after (transient cond-let)
     :bind ("C-x g" . 'magit-status))
 #+end_src
 
