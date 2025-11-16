@@ -443,9 +443,11 @@ For fancy looking stars
 ** vue-ts-mode
 #+begin_src emacs-lisp
   (use-package vue-ts-mode
-    :ensure (:host github :repo "8uff3r/vue-ts-mode")
+    :ensure (:host github :repo "theschmocker/vue-ts-mode")
     :mode ("\\.vue\\'")
-    :hook (vue-ts-mode . (lambda () (setq-local indent-tabs-mode nil))))
+    :hook (vue-ts-mode . (lambda () (progn
+  				    (setq-local indent-tabs-mode nil)
+  				    (setq-local vue-ts-mode-indent-offset 2)))))
 #+end_src
 
 ** typescript-ts-mode
