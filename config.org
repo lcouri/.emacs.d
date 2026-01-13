@@ -39,6 +39,12 @@
 #+end_src
 
 * Defaults
+** spelling
+I don't know the differences between the spellcheck programs, but I already have the english dictionary for hunspell installed.
+#+begin_src emacs-lisp
+  (setq ispell-program-name "/usr/bin/hunspell")
+#+end_src
+
 ** disable bell
 It's seriously annoys me, and I don't ever want to hear the pc speaker.
 Weirdly I'd been using emacs for a few years before I ever heard it beep...
