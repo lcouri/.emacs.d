@@ -1,4 +1,4 @@
-#+STARTUP: indent
+#+STARTUP: indent, fold
 #+TITLE: Emacs Configuration
 
 * Lexical binding
