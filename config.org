@@ -352,33 +352,50 @@ Runs =eslint --fix= on the current file if it's available.
 #+end_src
 
 
-* lsp-mode
-Somewhat of a rush job right now, but it works 😅
+* eldoc
+#+begin_src emacs-lisp
+  (use-package eldoc
+    :custom (eldoc-echo-area-prefer-doc-buffer t))
+#+end_src
+
+* eglot
+"C-h ." to display documentation at point.
+#+begin_src emacs-lisp
+  (use-package eglot
+    :custom (eglot-ignored-server-capabilities
+  	   '(:semanticTokensProvider
+  	     :documentOnTypeFormattingProvider
+  	     :foldingRangeProvider))
+    :config (add-to-list 'eglot-server-programs
+  		       `(vue-ts-mode . ("rass" "vue"))))
+#+end_src
+
+* lsp-mode =disabled=
+Replacing lsp-mode with eglot, so disabling for now (could be useful to keep around).
 ** main
 #+begin_src emacs-lisp
   (use-package lsp-mode
-    :ensure t
+    :disabled
     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
     :init
     (setq lsp-keymap-prefix "C-'")
     (defun my/lsp-mode-setup-completion ()
       (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-            '(orderless)))
+  	  '(orderless)))
     :hook (;; replace xxx-mode with concrete major-mode(e. g. python-mode)
   	 (typescript-ts-mode . lsp-deferred)
   	 (vue-ts-mode . lsp-deferred)
   	 (html-ts-mode . lsp-deferred)
-           (web-mode . (lambda ()
-                         (when (or (string= (file-name-extension buffer-file-name) "tsx")
-                                   (string= (file-name-extension buffer-file-name) "js"))
-                           (lsp-deferred))))
-           ;; if you want which-key integration
-           (lsp-mode . lsp-enable-which-key-integration)
-           (lsp-completion-mode . my/lsp-mode-setup-completion))
+  	 (rust-ts-mode . lsp-deferred)
+  	 ;; if you want which-key integration
+  	 (lsp-mode . lsp-enable-which-key-integration)
+  	 (lsp-completion-mode . my/lsp-mode-setup-completion))
     :commands (lsp lsp-deferred)
     :custom (lsp-enable-indentation nil)
-            (lsp-headerline-breadcrumb-enable nil)
-            (lsp-completion-provider :none))
+  	  (lsp-headerline-breadcrumb-enable nil)
+  	  (lsp-completion-provider :none)
+  	  (lsp-typescript-format-enable nil) ;; doesn't seem to use the right indentation
+  	  (lsp-apply-edits-after-file-operations nil)) ;; keeps adding emacs backup files to tsconfig.json and messes with imports
 #+end_src
 
 ** lsp-ui
@@ -386,7 +403,7 @@ lsp-mode auto-detects and configures lsp-ui
 to turn off set lsp-auto-configure to nil
 #+begin_src emacs-lisp
   (use-package lsp-ui
-    :ensure t
+    :disabled
     :after lsp-mode
     :config (setq lsp-ui-sideline-diagnostic-max-lines 25))
 #+end_src
