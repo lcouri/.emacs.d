@@ -882,7 +882,8 @@ I've made ijkl my general arrow key equivalent bindings. Sort of like wasd, but 
 * git-timemachine
 #+begin_src emacs-lisp
   (use-package git-timemachine
-    :ensure t)
+    :ensure t
+    :after magit)
 #+end_src
 
 * rotate
