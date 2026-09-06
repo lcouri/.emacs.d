@@ -538,8 +538,7 @@ a bit unclear what the columns are though.
 * consult
 A bunch of useful commands and enhancements to existing commands. I find it most handy for buffer search with
 =consult-line= and the live updating =git-grep=. I know a lot of people prefer =ripgrep=, but I haven't found
-it to be that much faster so far (maybe I just need bigger projects), and besides I'm pretty sure it's the
-emacs side that's the bottleneck anyway.
+it to be that much faster so far (maybe I just need bigger projects).
 Look into =consult-preview-key= to toggle preview mode (can be done per command).
 #+begin_src emacs-lisp
   (use-package consult
@@ -651,31 +650,85 @@ Need a cycle to end function (or actually a cycle to new cursor function would m
       (advice-add 'mc/unmark-previous-like-this :before 'advice-mc/cycle-forward)))
 #+end_src
 
-* TODO (cleanup and think about how this works with lsps) flycheck
-Lots of thanks to Jeff Barczewski for [[http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html][this post]] to get flycheck using the local eslint.
-(probably don't need that functionality anymore since we're just using the lsp now)
+* flycheck
+Flycheck can now run its own lsp for linting.
+For now I'm getting it to use a globally installed =oxlint= by default for vue/typescript projects.
+Might need to change it (to eslint or a local version of the lint program) on a per project basis, which would mean adding something like this in .dir-locals.el:
 #+begin_src emacs-lisp
-  (defun set-eslint ()
-    (let ((eslint (my/recursive-locate-file "node_modules" '(".bin" "eslint"))))
-      (when eslint
-        (setq-local flycheck-javascript-eslint-executable eslint))))
+  ;; ((nil . ((eval . (make-local-variable 'flycheck-lsp-servers))
+  ;; 	 (eval . (setf (alist-get 'vue-ts-mode flycheck-lsp-servers)
+  ;; 		       '(".../[project]/node_modules/.bin/oxlint" "--lsp"))))))
+#+end_src
+
+Getting flycheck to work with eglot and enabling annotate mode.
+I was having an issue with the eldoc buffer opening when it shouldn't (on a timer rather than only when specifically invoked), so I've overridden some of the
+flycheck functions to fix/work around it for now. More explanation in comments, but I'd like to look more into what flycheck is doing with =flycheck--eldoc-supress-doc-window=.
+#+begin_src emacs-lisp
+  (setq my/default-nodejs-lint-program '("oxlint" "--lsp"))
 
   (use-package flycheck
     :ensure t
-    :init (global-flycheck-mode)
+    :init
+    (global-flycheck-eglot-mode)
+    (global-flycheck-lsp-mode)
+    (global-flycheck-annotate-mode)
+    :custom
+    (flycheck-eglot-exclusive nil)
+    (flycheck-lsp-exclusive nil)
+    (flycheck-annotate-other-lines-style nil)
     :config
-    (progn
-      (setq-default flycheck-temp-prefix ".flycheck")
-      (flycheck-add-mode 'javascript-eslint 'web-mode)
-      (add-hook 'web-mode-hook (lambda ()
-                                 (unless (member 'javascript-jshint flycheck-disabled-checkers)
-                                   (setq-local flycheck-disabled-checkers
-                                               (append flycheck-disabled-checkers '(javascript-jshint))))))
-      (add-hook 'emacs-lisp-mode-hook (lambda ()
-                                        (setq-local flycheck-disabled-checkers
-                                                    (append flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
-      (add-hook 'flycheck-mode-hook #'set-eslint)
-      ))
+    (add-to-list 'flycheck-lsp-servers
+  	       (cons 'vue-ts-mode my/default-nodejs-lint-program))
+    (setf (alist-get 'typescript-ts-mode flycheck-lsp-servers)
+          my/default-nodejs-lint-program)
+    ;; Enabling =global-flycheck-lsp-mode= causes the eldoc buffer to display when activated by a timer
+    ;; e.g. you have a cursor over a line with an error and the eldoc buffer will suddenly display,
+    ;; even though it should only do that if you call it interactively (i.e. not through a timer)
+    ;; It seems to me like it's something to do with the =flycheck-display-errors-via-eldoc= function.
+    ;; It always calls =eldoc-print-current-symbol-info= with interactive set to "t", which seems to be what
+    ;; causes it so I'm just passing on whether it was called interactively from =flycheck-display-error-at-point=.
+    ;; It looks like flycheck has some custom eldoc handling via =flycheck--eldoc-suppress-doc-window=,
+    ;; so I'll need to look more into what it's doing but this seems to work for now.
+    (defun flycheck-display-error-at-point ()
+      "Display all the error messages at point.
+
+  If there are no errors, clears the error messages at point."
+      (interactive)
+      ;; This function runs from a timer, so we must take care to not ignore any
+      ;; errors
+      (with-demoted-errors "Flycheck error display error: %s"
+        (flycheck-cancel-error-display-error-at-point-timer)
+        (when flycheck-mode
+  	(let ((errors (flycheck-overlay-errors-at (point))))
+            (if errors
+                (flycheck-display-errors errors (called-interactively-p 'any))
+              (flycheck-clear-displayed-errors))))))
+
+    (defun flycheck-display-errors (errors &optional interactive)
+      "Display ERRORS using `flycheck-display-errors-function'."
+      (when flycheck-display-errors-function
+        (funcall flycheck-display-errors-function errors interactive)))
+
+    (defun flycheck-display-errors-via-eldoc (_errors &optional interactive)
+      "Trigger Eldoc to document the errors at point.
+
+  Eldoc computes its documentation from all of its registered
+  sources, including `flycheck-eldoc-function', so refreshing it
+  shows the Flycheck errors at point alongside e.g. Eglot's
+  documentation.  This works from any display entry point --
+  interactive commands, error navigation, automatic display after a
+  check -- whether or not variable `eldoc-mode' is enabled.
+
+  Eldoc is asked to document interactively, because reaching this
+  function already means Flycheck decided to show the errors at
+  point.  Left to its own devices Eldoc keeps out of the echo area
+  unless the command that ran is one of `eldoc-message-commands',
+  which error navigation is not, and the errors would go unseen.
+  `flycheck--eldoc-refresh-pending' keeps that request from reaching the
+  documentation window."
+      (setq flycheck--eldoc-refresh-pending t)
+      (eldoc-print-current-symbol-info interactive))
+    )
 #+end_src
 
 * which-key
