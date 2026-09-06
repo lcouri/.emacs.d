@@ -410,31 +410,6 @@ For fancy looking stars
     :hook (org-mode . (lambda () (org-superstar-mode 1))))
 #+end_src
 
-* TODO (maybe remove? or at least improve vue-ts-mode's template section with some ideas from this) web-mode
-#+begin_src emacs-lisp
-  (use-package web-mode
-    :ensure t
-    :mode ("\\.js\\'" "\\.jsx\\'" "\\.tsx\\'" "\\.mdx\\'")
-    :hook (web-mode . (lambda () (setq-local indent-tabs-mode nil)))
-    :config
-    (progn
-      (setq web-mode-markup-indent-offset 2)
-      (setq web-mode-code-indent-offset 2)
-      (setq web-mode-css-indent-offset 2)
-      (setq web-mode-attr-indent-offset 2)
-      (setq web-mode-attr-value-indent-offset 2)
-      ;; (setq web-mode-enable-current-element-highlight t)
-      (setq web-mode-enable-current-column-highlight t)
-      (setq web-mode-enable-auto-quoting nil)
-      (setq web-mode-indentation-params nil)
-      (setq web-mode-script-padding 0)
-      (setq web-mode-style-padding 0)
-      (setq-default web-mode-comment-formats '(("javascript" . "//")
-                                               ("typescript" . "//")
-                                               ("jsx" . "//")
-                                               ("css" . "/*")))))
-#+end_src
-
 * tree-sitter
 ** treesit-auto
 #+begin_src emacs-lisp
