@@ -1,0 +1,17 @@
+#+STARTUP: indent
+#+TITLE: NPM Packages
+
+* Global packages
+- @vue/language-server
+- http-server
+  - not needed for editor integration, but still useful
+- js-beautify
+  - for web-beautify-html, web-beautify-js, web-beautify-css
+- oxfmt
+- oxlint
+- typescript-language-server
+- typescript-native-bridge
+  - install as =npm -g i typescript@npm:typescript-native-bridge=
+  - this is to alias it to =typescript= so that it works with vue-language-server
+  - typescript-native-bridge uses Typescript 7 (tsgo), but keeps compatibility with existing tools
+  - typescript/vue devs probably will eventually change how the integration works, so keep an eye on it
