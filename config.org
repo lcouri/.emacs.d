@@ -1039,13 +1039,6 @@ ways of stopping zoom from resizing it yet.
   (advice-add 'which-key--show-popup :after 'my/advice-which-key)
 #+end_src
 
-* rainbow-delimiters
-#+begin_src emacs-lisp
-  (use-package rainbow-delimiters
-    :ensure t
-    :hook (prog-mode . rainbow-delimiters-mode))
-#+end_src
-
 * exec-path-from-shell
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
