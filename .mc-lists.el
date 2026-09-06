@@ -40,6 +40,8 @@
 	upcase-region
 	wdired--self-insert
 	wdired-finish-edit
+	wdired-next-line
+	wdired-previous-line
 	web-mode-comment-or-uncomment
 	web-mode-element-kill
 	web-mode-element-wrap
